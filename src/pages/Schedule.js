@@ -4,9 +4,9 @@ import PulseLoader from "react-spinners/PulseLoader";
 import history from "../utils/history";
 
 class Schedule extends Component {
+
     constructor(props) {
-        super(props)
-    
+        super(props)    
         this.state = {
              user:null,
              loginStat:false,
@@ -63,6 +63,7 @@ class Schedule extends Component {
             </div>
         )
     }
+    
 }
 
 export default Schedule

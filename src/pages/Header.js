@@ -14,8 +14,8 @@ function Header(props) {
 
     return (
         <div className="z-10 flex sticky top-0 w-full justify-between py-1 bg-gray-200 px-4">
-            <div className="w-screen">
-                <div><Link to="/"><img alt="Company Logo" className="w-16 h-16" src="assets/logo.png"></img></Link></div>
+            <div >
+                <div><Link to="/"><img alt="Company Logo" className="w-16 h-16" src="../assets/logo.png"></img></Link></div>
             </div>
             <div className="flex">
                 
