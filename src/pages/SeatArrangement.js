@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { AiOutlineClose } from 'react-icons/ai';
-
+import {axiosGetInstance} from "../axios/axios"
 
 class SeatArrangement extends Component {
     constructor(props){
@@ -35,9 +35,14 @@ class SeatArrangement extends Component {
     }
 
     selectSeat(seat){
-        this.setState({selectedSeat:{seatID:seat.SEAT_ID}})
-        console.log(seat.SEAT_ID)
-        console.log(this.state.selectedSeat)
+        axiosGetInstance().get(`/schedule/${this.props.flight_id}/${seat.SEAT_ID}`).then(res=>{
+            this.setState({selectedSeat:{seatID:seat.SEAT_ID, priceDetails:res.data}})
+            console.log(this.state.selectedSeat)
+        }).catch(err=>{
+            console.log(err)
+        })
+        //console.log(seat)
+        //console.log(this.state.selectedSeat)
     }
 
     render() {
@@ -102,8 +107,27 @@ class SeatArrangement extends Component {
                     <div className="p-10">
                         <div className="text-2xl">Seat Price and Discounts</div>
                         <div className="mt-5">Seat No :- {this.state.selectedSeat.seatID}</div>
-                        <div className="mt-3">Price :- Rs 100/=</div>
+                        
+                        {this.state.selectedSeat.priceDetails.user_id?
+                        <div>
+                        <div className="mt-3">Price :- Rs {this.state.selectedSeat.priceDetails.default_price}/=</div>
+
+                        {this.state.selectedSeat.priceDetails.user_id.package_name=="Basic"?null:
+                        <div>
+                            <div className="mt-3">Discount Price :- Rs {this.state.selectedSeat.priceDetails.discount_price}/=</div>
+                        </div>
+                        }
+
+                        <div>Package :- {this.state.selectedSeat.priceDetails.package_name} </div>
+                        </div>
+                        :
+                        <div>
+                        <div className="mt-3">Price :- Rs {this.state.selectedSeat.priceDetails.default_price}/=</div>
                         <div className="mt-3">Discounts :- No Discounts for guest users</div>
+                        </div>
+                        }
+                        
+
                         <button className="mt-3 w-55 rounded py-1 px-3 text-blue-900 border-2 border-blue-900 hover:bg-blue-900 hover:text-white">Make a Booking</button>
                     </div>
                     

@@ -59,7 +59,7 @@ class FlightDetails extends Component {
         </div>
         </div>:null}
 
-        {this.state.flight?<SeatArrangement seat_details={this.state.flight.seat_info}/>:
+        {this.state.flight?<SeatArrangement flight_id={this.state.flight.flight_id} seat_details={this.state.flight.seat_info}/>:
         
 
         <div className="text-center mt-10">
