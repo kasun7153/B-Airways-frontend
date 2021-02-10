@@ -3,7 +3,6 @@ import history from "../utils/history";
 import {axiosGetInstance} from "../axios/axios"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import 'react-toastify/dist/ReactToastify.css';
 import PulseLoader from "react-spinners/PulseLoader";
 
 class SignUp extends Component {
@@ -88,8 +87,9 @@ class SignUp extends Component {
     
     render() {
         return (
+
             <div className="flex flex-wrap content-center justify-center" style={{height:"90vh"}}>
-                <div className="text-center border-2 p-10 rounded" style={{width:"50%"}}>
+                <div className="text-center border-2 p-10 rounded" style={{ width: "50%" }}>                    
                     <span className="font-bold block mb-10 text-3xl">Create a new account</span>
                     <input onChange={(e)=>{this.changeInput("name",e)}} value={this.state.formdata.name} className="w-full py-1 px-2 rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5" placeholder="Name" type="text"/>
                     <input onChange={(e)=>{this.changeInput("contact_no",e)}} value={this.state.formdata.contact_no} className="w-full py-1 px-2 rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5" placeholder="Contact no" type="text"/>
@@ -102,6 +102,7 @@ class SignUp extends Component {
                 </div>
                 <ToastContainer />
             </div>
+
         )
     }
 }

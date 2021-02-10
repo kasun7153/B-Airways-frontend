@@ -2,12 +2,11 @@ import React, { Component } from 'react'
 import {axiosGetInstance} from "../axios/axios"
 import PulseLoader from "react-spinners/PulseLoader";
 import history from "../utils/history";
-import moment from 'moment';
-import { RiPlaneLine } from 'react-icons/ri';
+
 class Schedule extends Component {
+
     constructor(props) {
-        super(props)
-    
+        super(props)    
         this.state = {
              user:null,
              loginStat:false,
@@ -30,37 +29,17 @@ class Schedule extends Component {
         })
     }
 
-    date(date){
-        return <div>{moment(date).utc().format('DD-MM-YYYY')}</div>
-    }
-
     renderFlighrSchedules(){
         if(this.state.flights){
             const FlighrSchedules =this.state.flights.map(data=>{
                 return(
                     <div key={data.flight_id} onClick={()=>{history.push(`/schedule/${data.flight_id}`);}} className="cursor-pointer m-5 border-2 border-blue-500 p-5 rounded hover:bg-blue-900 hover:text-white">
-                        
-
-                        <div>
-                    <div className="text-center text-3xl font-bold">Flight Id - {data.flight_id}</div>
-                    <div className="flex mt-10 justify-center">
-                        <div style={{width:"30%"}}>
-                            {data.origin_city} -{'>'} {data.origin_state} -{'>'} {data.origin_country}
-                            <br/>{this.date(data.date)}
-                            {data.start_time}
-                        </div>
-                        <div className="mr-5 ml-5">
-                            <RiPlaneLine className="w-20 h-20"/>
-    
-                        </div>
-                        <div style={{width:"30%"}}>
-                            {data.destination_city} -{'>'} {data.destination_state} -{'>'} {data.destination_country}
-                            <br/>{this.date(data.date)}
-                            {data.end_time}
-                        </div>
-                    </div>
-            
-        </div>
+                        <div>Flight Id :- {data.flight_id}</div>
+                        <div>Date :- {new Date(data.date).toDateString()}</div>
+                        <div>From :- {data.origin_city}-{'>'}{data.origin_state}-{'>'}{data.origin_country}</div>
+                        <div>To :- {data.destination_city}-{'>'}{data.destination_state}-{'>'}{data.destination_country}</div>
+                        <div>Start At :- {data.start_time}</div>
+                        <div>End At:- {data.end_time}</div>
                     </div>
                 )
             })
@@ -84,6 +63,7 @@ class Schedule extends Component {
             </div>
         )
     }
+    
 }
 
 export default Schedule

@@ -52,8 +52,7 @@ class Login extends Component {
 
     render() {
         return (
-            <div className="flex flex-wrap content-center justify-center" style={{height:"90vh"}}>
-                
+            <div className="flex flex-wrap content-center justify-center" style={{height:"90vh"}}>                
                 <div className="text-center w-90 border-2 p-10 rounded">
                     <span className="font-bold block mb-10 text-3xl">Sign in to your account</span>
                     <input onChange={(e)=>this.setValues("email",e)} value={this.state.email} className="w-full py-1  px-2 rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5" placeholder="Email" type="text"></input>
