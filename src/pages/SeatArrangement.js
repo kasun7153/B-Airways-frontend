@@ -35,6 +35,7 @@ class SeatArrangement extends Component {
     }
 
     selectSeat(seat){
+        this.setState({selectedSeat:null})
         axiosGetInstance().get(`/schedule/${this.props.flight_id}/${seat.SEAT_ID}`).then(res=>{
             this.setState({selectedSeat:{seatID:seat.SEAT_ID, priceDetails:res.data}})
             console.log(this.state.selectedSeat)
@@ -94,9 +95,7 @@ class SeatArrangement extends Component {
             }
             </div>
             </div>
-            
 
-            
             </div>
             {this.state.selectedSeat?
             <div className="flex flex-wrap content-center justify-center text-center" style={{width:"40%"}}>
@@ -111,11 +110,12 @@ class SeatArrangement extends Component {
                         {this.state.selectedSeat.priceDetails.user_id?
                         <div>
                         <div className="mt-3">Price :- Rs {this.state.selectedSeat.priceDetails.default_price}/=</div>
-
-                        {this.state.selectedSeat.priceDetails.user_id.package_name=="Basic"?null:
-                        <div>
+                           
+                        {
+                        this.state.selectedSeat.priceDetails.package_name=="Basic"?null:
+                        
                             <div className="mt-3">Discount Price :- Rs {this.state.selectedSeat.priceDetails.discount_price}/=</div>
-                        </div>
+                       
                         }
 
                         <div>Package :- {this.state.selectedSeat.priceDetails.package_name} </div>
