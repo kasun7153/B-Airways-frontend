@@ -42,6 +42,7 @@ function Header(props) {
                             <div style={{width:"59px"}}>Log-out</div>
                             <div className="flex content-center ml-1 text-yellow-500"><RiLoginCircleLine style={{marginTop:"5px",display:"inline"}}/></div>
                     </div>
+                    Branch Kasun
                 </div>
                 }
             </div>
