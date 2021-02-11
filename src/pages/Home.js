@@ -23,7 +23,7 @@ function Home(props) {
         <div style={{overflow:"hidden"}}>
             <div className="relative flex flex-col h-full">
                 <div className="overflow-hidden">
-                    <img className=" h-screen object-cover w-full" src="assets/background.jpeg"/>
+                    <img alt="img" className=" h-screen object-cover w-full" src="assets/background.jpeg"/>
                 </div>
 
                 <div className="absolute transform -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
