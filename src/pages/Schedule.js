@@ -31,7 +31,7 @@ class Schedule extends Component {
     }
 
     date(date){
-        return <div>{moment(date).utc().format('DD-MM-YYYY')}</div>
+        return <div>{moment(date).format('DD-MM-YYYY')}</div>
     }
 
     renderFlighrSchedules(){

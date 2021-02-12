@@ -112,7 +112,7 @@ class SeatArrangement extends Component {
                         <div className="mt-3">Price :- Rs {this.state.selectedSeat.priceDetails.default_price}/=</div>
                            
                         {
-                        this.state.selectedSeat.priceDetails.package_name=="Basic"?null:
+                        this.state.selectedSeat.priceDetails.package_name==="Basic"?null:
                         
                             <div className="mt-3">Discount Price :- Rs {this.state.selectedSeat.priceDetails.discount_price}/=</div>
                        
