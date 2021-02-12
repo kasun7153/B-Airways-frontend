@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import Nav from "./Nav";
 import PulseLoader from "react-spinners/PulseLoader";
 import { axiosGetInstance } from "../../axios/axios";
+import Table from "../table/Table";
 
-
-class CountDestination extends Component {
+class PassCount extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,11 +12,22 @@ class CountDestination extends Component {
       formdata: {
         start_date: "",
         end_date: "",
-        destination: "",
       },
       count: "",
       countState: false,
       loading: false,
+      RegPassDetails: null,
+      columns: [
+        {
+          Header: "Package Name",
+          accessor: "package_name",
+        },
+
+        {
+          Header: "Num of Passengers",
+          accessor: "num_of_passengers",
+        },
+      ],
     };
   }
 
@@ -33,10 +44,7 @@ class CountDestination extends Component {
       formIsValid = false;
       errors["end_date"] = "'End Date' cannot be empty !";
     }
-    if (!this.state.formdata.destination) {
-      formIsValid = false;
-      errors["destination"] = "'Destination' cannot be empty !";
-    }
+
     if (
       this.state.formdata.end_date <= this.state.formdata.start_date &&
       formIsValid
@@ -58,27 +66,37 @@ class CountDestination extends Component {
       this.setState({
         formdata: { ...this.state.formdata, end_date: e.target.value },
       });
-    } else if (type === "destination") {
-      this.setState({
-        formdata: { ...this.state.formdata, destination: e.target.value },
-      });
     }
+
+    //console.log(this.state.formdata);
   };
 
-  getPassengersDetails = () => {
+  getPassengersCount = () => {
     if (this.handleValidation()) {
+      this.state.RegPassDetails = [];
+
       this.setState({ loading: true });
       alert("Successfuly Submitted");
 
       axiosGetInstance()
-        .post(`admin/passdescount`, this.state.formdata)
+        .post(`admin/guest`, this.state.formdata)
         .then((result) => {
           this.setState({ loading: false });
-          this.setState({ count: result.data.data.pass_des_count });
+          this.setState({ count: result.data.data.guest_count });
           this.setState({ countState: true });
         })
         .catch((err) => {
           console.log("Error getting count");
+        });
+
+      axiosGetInstance()
+        .post(`admin/register`, this.state.formdata)
+        .then((result) => {
+          this.setState({ loading: false });
+          this.setState({ RegPassDetails: result.data.data });
+        })
+        .catch((err) => {
+          console.log("Error getting passengers details");
         });
     } else {
       // alert("Error getting passengers details");
@@ -89,7 +107,7 @@ class CountDestination extends Component {
     return (
       <div style={{ overflow: "hidden" }}>
         <div className="relative flex flex-col h-full">
-          <Nav page={"CountDestination"}></Nav>
+          <Nav page={"PassCount"}></Nav>
 
           <div
             className="flex flex-wrap content-center justify-center "
@@ -151,40 +169,9 @@ class CountDestination extends Component {
               </div>
               <br />
 
-              <form className="z-10 flex sticky top-0 w-full justify-between py-1  px-2">
-                <div className="z-10 flex sticky top-0 w-full text-blue-900 justify-between py-1  px-2">
-                  {" "}
-                  <label
-                    style={{
-                      fontSize: 15,
-                      fontWeight: "bold",
-                    }}
-                  >
-                    SELECT DESTINATION{" "}
-                  </label>
-                </div>
-                <select
-                  value={this.state.destination}
-                  onChange={(e) => this.setValues("destination", e)}
-                  className="w-full   rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5 px-2"
-                >
-                  <option value="">destination </option>
-                  <option value="bom">BOM </option>
-                  <option value="bia">BIA</option>
-                  <option value="bkk">BKK</option>
-                </select>
-              </form>
-              <div className="text-center">
-                {" "}
-                <span style={{ color: "red" }}>
-                  {this.state.errors["destination"]}
-                </span>
-              </div>
-              <br />
-
               <div className="flex justify-center">
                 <div
-                  onClick={this.getPassengersDetails}
+                  onClick={this.getPassengersCount}
                   className="flex rounded py-1 px-8 border-2 border-blue-900 bg-blue-900 text-white hover:shadow-2xl cursor-pointer"
                 >
                   <PulseLoader
@@ -204,25 +191,55 @@ class CountDestination extends Component {
               <br />
             </div>
           </div>
+
           {this.state.countState ? (
             <div
               className="flex flex-wrap content-center justify-center "
-              style={{ height: "30vh" }}
+              style={{ height: "20vh" }}
             >
               <div className="text-center w-90 border-2 p-10 rounded ">
                 <h1
                   className="w-full py-1   rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5 px-2"
                   type="text"
                 >
-                  Number of Passengers : {this.state.count}{" "}
+                  Number of Guest Passengers : {this.state.count}{" "}
                 </h1>
               </div>
             </div>
           ) : null}
+
+          {this.state.RegPassDetails == null ? null : (
+            <>
+              <div
+                className="content-center rounded  px-3 text-blue-900 "
+                style={{
+                  textAlign: "center",
+                  fontSize: 28,
+                  fontFamily: "serif",
+                  fontWeight: "bold",
+                }}
+              >
+                <br />
+                Count of Registered passengers
+              </div>
+              <br /> <br />
+              <div className="flex flex-wrap content-center justify-center">
+                <div style={{ overflow: "auto" }}>
+                  <div className="flex flex-wrap content-center rounded py-1 px-3 text-blue-900 item-center">
+                    <Table
+                      data={this.state.RegPassDetails}
+                      columns={this.state.columns}
+                    />
+                  </div>
+                </div>{" "}
+              </div>
+              <br /> <br />
+            </>
+          )}
         </div>
       </div>
     );
   }
 }
 
-export default CountDestination;
+export default PassCount;

@@ -105,6 +105,8 @@ class AgeFilter extends Component {
      
       this.setState({ loading: true });
       alert("Successfuly Submitted");
+
+
       axiosGetInstance()
         .get(`admin/passagedetails/above/${this.state.flightId}`)
         .then((result) => {
@@ -124,6 +126,9 @@ class AgeFilter extends Component {
         .catch((err) => {
           console.log("Error getting passengers details");
         });
+
+
+
     } else {
 
       // alert("Error getting passengers details");
@@ -176,6 +181,9 @@ class AgeFilter extends Component {
             </div>
           </div>
         </div>
+
+
+
         {this.state.belowPassDetails == null  ? null : (
           <>
             <div
@@ -199,8 +207,18 @@ class AgeFilter extends Component {
             </div>{" "}
           </>
         )}
+
+
+
+        
         <br /> <br />
         <br /> <br />
+
+
+
+
+
+
         {this.state.abovePassDetails == null ? null : (
           <>
             <div
