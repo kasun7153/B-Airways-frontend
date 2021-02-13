@@ -1,11 +1,19 @@
 import React, { Component } from 'react'
 import { AiOutlineClose } from 'react-icons/ai';
 import {axiosGetInstance} from "../axios/axios"
+import Modal from 'react-modal';
+import BookSeatGuest from './BookSeatGuest';
 
 class SeatArrangement extends Component {
+
+    
+
     constructor(props){
+        
+
         super(props)
         this.state={
+            isOpen:false,
             economy_seats:[],
             business_seats:[],
             platinum_seats:[],
@@ -16,6 +24,7 @@ class SeatArrangement extends Component {
     }
 
     componentDidMount(){
+        
         Object.entries(this.props.seat_details).forEach(([key, value]) => {
             switch(value.CLASS_NAME){
                 case "Economy":
@@ -46,7 +55,23 @@ class SeatArrangement extends Component {
         //console.log(this.state.selectedSeat)
     }
 
+    closeModel=()=>{
+        this.setState({isOpen:false})
+    }
+
     render() {
+        const customStyles = {
+            content : {
+              
+              top                   : '55%',
+              left                  : '50%',
+              right                 : 'auto',
+              bottom                : 'auto',
+              marginRight           : '-50%',
+              transform             : 'translate(-50%, -50%)'
+            }
+          };
+
         return (  
             <>
             
@@ -128,7 +153,7 @@ class SeatArrangement extends Component {
                         }
                         
 
-                        <button className="mt-3 w-55 rounded py-1 px-3 text-blue-900 border-2 border-blue-900 hover:bg-blue-900 hover:text-white">Make a Booking</button>
+                        <button onClick={()=>{this.setState({isOpen:true})}} className="mt-3 w-55 rounded py-1 px-3 text-blue-900 border-2 border-blue-900 hover:bg-blue-900 hover:text-white">Make a Booking</button>
                     </div>
                     
                 </div>
@@ -140,6 +165,11 @@ class SeatArrangement extends Component {
             :null}
             
             </div> 
+
+            <Modal onRequestClose={()=>this.setState({isOpen:false})} isOpen={this.state.isOpen} style={customStyles}>
+                <BookSeatGuest closeModel={this.closeModel} flight_id={this.props.flight_id} selectedSeat={this.state.selectedSeat}/>
+            </Modal>
+
             </>
         )
     }
