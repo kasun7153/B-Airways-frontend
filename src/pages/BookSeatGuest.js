@@ -38,7 +38,7 @@ class BookSeatGuest extends Component {
             discount_price:this.props.selectedSeat.priceDetails.default_price,
             
         }).then(res=>{
-            if(res.data.sucess){
+            if(res.data.success){
                 this.props.bookingSuccess(res.data.message)
                
             }
