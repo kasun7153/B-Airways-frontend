@@ -4,16 +4,58 @@ import {BsPersonFill } from 'react-icons/bs';
 import {ImMobile } from 'react-icons/im';
 import {BiWorld } from 'react-icons/bi';
 import {FaPassport } from 'react-icons/fa';
+import {axiosGetInstance} from "../axios/axios"
+import history from "../utils/history";
+import moment from 'moment';
 import {MdToday } from 'react-icons/md';
-
 class BookSeatGuest extends Component {
 
     constructor(props){
         super(props)
         this.state={
-            userProfile:""
+            userProfile:{
+                birthday:moment(new Date()).format('YYYY-MM-DD')
+            }
         }
     }
+
+    testing=()=>{
+        console.log(this.state.userProfile.birthday)
+    }
+
+    boookSeat=()=>{
+        axiosGetInstance().post("/user/bookseat",{
+            guest_data:{
+                name:this.state.userProfile.name,
+                email:this.state.userProfile.email,
+                birthday:this.state.userProfile.birthday,
+                contact_no:this.state.userProfile.contact_no,
+                passport_no:this.state.userProfile.passport_no,
+                country:this.state.userProfile.country
+            },
+            flight_id:this.props.flight_id,
+            seat_id:this.props.selectedSeat.seatID,
+            discount_price:this.props.selectedSeat.priceDetails.default_price,
+            
+        }).then(res=>{
+            if(res.data.sucess){
+                this.props.bookingSuccess(res.data.message)
+               
+            }
+            else{
+                console.log(res.data)
+                this.props.bookingFailed(res.data.message)
+            }
+           
+        }).catch(err=>{
+            console.log(err)
+        })
+    }
+
+    dateValue(date){
+        return moment(date).format('YYYY-MM-DD')
+    }
+
     render() {
         return (
             <div className="px-24 py-10">
@@ -65,6 +107,17 @@ class BookSeatGuest extends Component {
                             </div>  
                         </div>
 
+                        <div className="flex mt-7">
+                            <div className="flex flex-wrap w-14 text-center justify-center content-center">
+                                <MdToday size="35"/>
+                            </div>
+
+                            <div className="flex text-xl flex-wrap align-middle content-center">
+
+                            <input type="date" value={this.dateValue(this.state.userProfile.birthday)} onChange={(e)=>{this.setState({userProfile:{...this.state.userProfile,birthday:e.target.value}})}}/>
+                                
+                            </div>  
+                        </div>
 
                         <div className="flex mt-7">
                             <div className="flex flex-wrap w-14 text-center justify-center content-center">
@@ -84,7 +137,7 @@ class BookSeatGuest extends Component {
                                 
                             </div> 
 
-                            <div className="p-3 cursor-pointer rounded text-center text-xl text-blue-900 border-2 border-blue-900 hover:bg-blue-900 hover:text-white">
+                            <div onClick={this.boookSeat} className="p-3 cursor-pointer rounded text-center text-xl text-blue-900 border-2 border-blue-900 hover:bg-blue-900 hover:text-white">
                                 
                                    Make Booking
                                 
@@ -92,7 +145,9 @@ class BookSeatGuest extends Component {
                         </div>
                 </div>
                </div>
+               
             </div>
+            
         )
     }
 }
