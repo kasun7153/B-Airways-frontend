@@ -243,7 +243,7 @@ class PassFlights extends Component {
                   className="w-full py-1   rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5 px-2"
                   type="text"
                 >
-                  Number of Pass Flights : {this.state.count}{" "}
+                  Number of Passengers : {this.state.count}{" "}
                 </h1>
               </div>
             </div>
@@ -261,7 +261,7 @@ class PassFlights extends Component {
                 fontWeight: "bold",
               }}
             >
-              Count of Pass Flights
+              All Pass Flights
             </div>
             <div style={{ overflow: "auto" }}>
               <div className="flex flex-wrap content-center rounded py-1 px-3 text-blue-900 item-center">

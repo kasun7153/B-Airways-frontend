@@ -230,6 +230,7 @@ class PassCount extends Component {
             >
               Count of Registered passengers 
             </div>
+            <div className="flex flex-wrap content-center justify-center">
             <div style={{ overflow: "auto"}}>
               <div className="flex flex-wrap content-center rounded py-1 px-3 text-blue-900 item-center">
                 <Table
@@ -238,6 +239,7 @@ class PassCount extends Component {
                 />
               </div>
             </div>{" "}
+            </div>
           </>
         )}
 
