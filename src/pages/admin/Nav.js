@@ -67,22 +67,14 @@ function Nav(props) {
             {selectedPage("Get total revenue of a aircraft","TotalRevenueOfAircraft")}
           </div>
         </Link>
-              
-
-              <Link
+        
+        <Link
             to="/admin/delay"
             className="flex flex-wrap content-center item-center"
           >
-            <div className="flex w-50 mr-2 rounded py-1 px-3 text-blue-900   hover:text-white">
-              {props.page==="Delays" ? (
-                <>
-                  <div style={{ fontWeight: "bold" }}>
-                    Updating Delays
-                  </div>
-                </>
-              ) : (
-                <div>  Updating Delays</div>
-              )}
+          <div className="flex w-50 mr-2 rounded py-1 px-3 text-blue-900   hover:text-white">
+            {selectedPage("Updating Delays","Delays")}
+              
             </div>
               </Link>
               
