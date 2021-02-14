@@ -11,6 +11,7 @@ import React, { Component } from 'react'
 import {axiosGetInstance} from "./axios/axios"
 import AgeFilter from "./pages/admin/AgeFilter";
 import PassCount from "./pages/admin/PassCount";
+import Delay from "./pages/admin/delay";
 import PassFlights from "./pages/admin/PassFlights";
 import CountDestination from "./pages/admin/CountDestination";
 import Profile from "./pages/user/Profile";
@@ -81,6 +82,9 @@ class App extends Component{
 
             <Route exact path="/admin/PassFlights">
             <PassFlights /> </Route>
+
+            <Route exact path="/admin/delay">
+            <Delay /> </Route>
 
             <Route exact path="/user/profile">
             <Profile /> </Route>

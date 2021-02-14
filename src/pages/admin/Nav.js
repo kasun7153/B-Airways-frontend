@@ -75,6 +75,23 @@ function Nav(props) {
               )}
             </div>
               </Link>
+
+              <Link
+            to="/admin/delay"
+            className="flex flex-wrap content-center item-center"
+          >
+            <div className="flex w-50 mr-2 rounded py-1 px-3 text-blue-900   hover:text-white">
+              {props.page==="Delays" ? (
+                <>
+                  <div style={{ fontWeight: "bold" }}>
+                    Updating Delays
+                  </div>
+                </>
+              ) : (
+                <div>  Updating Delays</div>
+              )}
+            </div>
+              </Link>
               
         </div>
 
