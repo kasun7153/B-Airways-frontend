@@ -122,7 +122,7 @@ class Delay extends Component {
 
           <div
             className="flex flex-wrap content-center justify-center "
-            style={{ height: "70vh" }}
+            style={{ height: "90vh" }}
           >
             <div className=" border-2 p-10 rounded ">
 
