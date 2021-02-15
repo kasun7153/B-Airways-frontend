@@ -86,7 +86,7 @@ class CreateFlight extends Component {
         .then((result) => {
             this.setState({ loading: false });
             this.setState({ Status: result.data.data.Status });
-            if (this.Status == "1") {
+            if (this.state.Status == "1")  {
                 alert("Successfuly Created");
             }
             else {
