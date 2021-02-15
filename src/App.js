@@ -83,7 +83,17 @@ class App extends Component {
             )}
           />
 
-        <Route exact path="/schedule/:flight_id" component={(match)=><FlightDetails {...match} user={this.state.user}/>}/>
+        
+        
+        <Route exact path="/user/profile">
+            <Profile /> </Route>
+
+            <Route exact path="/user/editProfile">
+            <EditProfile /> </Route>
+
+            <Route exact path="/user/changePassword">
+            <ChangePassword /> </Route>
+        
         <Route exact path="/admin/ageFilter">
             <AgeFilter /> </Route>
           
@@ -108,14 +118,7 @@ class App extends Component {
             <Route exact path="/admin/delay">
             <Delay /> </Route>
 
-            <Route exact path="/user/profile">
-            <Profile /> </Route>
-
-            <Route exact path="/user/editProfile">
-            <EditProfile /> </Route>
-
-            <Route exact path="/user/changePassword">
-            <ChangePassword /> </Route>
+           
 
       </Router>
 
