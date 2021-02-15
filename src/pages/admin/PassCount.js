@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import Nav from "./Nav";
 import PulseLoader from "react-spinners/PulseLoader";
-import history from "../../utils/history";
 import { axiosGetInstance } from "../../axios/axios";
-import { ToastContainer, toast } from "react-toastify";
-import moment from "moment";
 import Table from "../table/Table";
 
 class PassCount extends Component {
@@ -34,29 +31,30 @@ class PassCount extends Component {
     };
   }
 
-  
   handleValidation() {
     let errors = {};
-   let formIsValid = true;
+    let formIsValid = true;
 
-  
-   if (!this.state.formdata.start_date) {
-     formIsValid = false;
-     errors["start_date"] = "'Start Date' cannot be empty !";
-   }
-
-   if (!this.state.formdata.end_date) {
-    formIsValid = false;
-    errors["end_date"] = "'End Date' cannot be empty !";
+    if (!this.state.formdata.start_date) {
+      formIsValid = false;
+      errors["start_date"] = "'Start Date' cannot be empty !";
     }
-   
-    if (this.state.formdata.end_date<=this.state.formdata.start_date &&  formIsValid) {
+
+    if (!this.state.formdata.end_date) {
+      formIsValid = false;
+      errors["end_date"] = "'End Date' cannot be empty !";
+    }
+
+    if (
+      this.state.formdata.end_date <= this.state.formdata.start_date &&
+      formIsValid
+    ) {
       formIsValid = false;
       errors["date_range"] = "'Start Date' should be less than 'End Date' !";
     }
-   this.setState({ errors: errors });
-   return formIsValid;
- }
+    this.setState({ errors: errors });
+    return formIsValid;
+  }
 
   setValues = (type, e) => {
     if (type === "start_date") {
@@ -69,29 +67,27 @@ class PassCount extends Component {
         formdata: { ...this.state.formdata, end_date: e.target.value },
       });
     }
-    
+
     //console.log(this.state.formdata);
   };
 
   getPassengersCount = () => {
     if (this.handleValidation()) {
+      this.state.RegPassDetails = [];
 
-        this.state.RegPassDetails = [];
-     
       this.setState({ loading: true });
       alert("Successfuly Submitted");
 
-    axiosGetInstance()
-      .post(`admin/guest`, this.state.formdata)
-      .then((result) => {
-        this.setState({ loading: false });
-        this.setState({ count: result.data.data.guest_count });
-        this.setState({ countState: true });
-      })
-      .catch((err) => {
-        console.log("Error getting count");
-      });
-
+      axiosGetInstance()
+        .post(`admin/guest`, this.state.formdata)
+        .then((result) => {
+          this.setState({ loading: false });
+          this.setState({ count: result.data.data.guest_count });
+          this.setState({ countState: true });
+        })
+        .catch((err) => {
+          console.log("Error getting count");
+        });
 
       axiosGetInstance()
         .post(`admin/register`, this.state.formdata)
@@ -102,15 +98,9 @@ class PassCount extends Component {
         .catch((err) => {
           console.log("Error getting passengers details");
         });
-
-
-
-
     } else {
-
       // alert("Error getting passengers details");
     }
-
   };
 
   render() {
@@ -130,10 +120,10 @@ class PassCount extends Component {
                   <label
                     style={{
                       fontSize: 15,
-                      fontWeight: "bold"
+                      fontWeight: "bold",
                     }}
                   >
-                    SELECT START  DATE{" "}
+                    SELECT START DATE{" "}
                   </label>
                 </div>
                 <input
@@ -142,13 +132,14 @@ class PassCount extends Component {
                   className="w-full    rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5 px-2"
                   type="date"
                 ></input>
-
-
               </form>
-             < div  className="text-center"> <span style={{ color: "red" }}>
-                {this.state.errors["start_date"]}
-              </span></div><br/>
-             
+              <div className="text-center">
+                {" "}
+                <span style={{ color: "red" }}>
+                  {this.state.errors["start_date"]}
+                </span>
+              </div>
+              <br />
 
               <form className="z-10 flex sticky top-0 w-full justify-between py-1  px-2">
                 <div className="z-10 flex sticky top-0 w-full  text-blue-900  justify-between py-1  px-2">
@@ -160,7 +151,7 @@ class PassCount extends Component {
                       fontWeight: "bold",
                     }}
                   >
-                    SELECT END  DATE{" "}
+                    SELECT END DATE{" "}
                   </label>
                 </div>
                 <input
@@ -170,12 +161,13 @@ class PassCount extends Component {
                   type="date"
                 ></input>
               </form>
-              < div  className="text-center"> <span style={{ color: "red" }}>
-                {this.state.errors["end_date"]}
-              </span></div><br/>
-             
-
-             
+              <div className="text-center">
+                {" "}
+                <span style={{ color: "red" }}>
+                  {this.state.errors["end_date"]}
+                </span>
+              </div>
+              <br />
 
               <div className="flex justify-center">
                 <div
@@ -189,21 +181,21 @@ class PassCount extends Component {
                   />
                   {!this.state.loading ? "SUBMIT" : null}
                 </div>
-                
               </div>
-              < div  className="text-center"> <span style={{ color: "red" }}>
-                {this.state.errors["date_range"]}
-              </span></div><br/>
+              <div className="text-center">
+                {" "}
+                <span style={{ color: "red" }}>
+                  {this.state.errors["date_range"]}
+                </span>
+              </div>
+              <br />
             </div>
           </div>
-
-
-
 
           {this.state.countState ? (
             <div
               className="flex flex-wrap content-center justify-center "
-              style={{ height: "30vh" }}
+              style={{ height: "20vh" }}
             >
               <div className="text-center w-90 border-2 p-10 rounded ">
                 <h1
@@ -216,33 +208,34 @@ class PassCount extends Component {
             </div>
           ) : null}
 
-
-        {this.state.RegPassDetails == null  ? null : (
-          <>
-            <div
-              className="content-center rounded py-1 px-3 text-blue-900 "
-              style={{
-                textAlign: "center",
-                fontSize: 28,
-                fontFamily: "serif",
-                fontWeight: "bold",
-              }}
-            >
-              Count of Registered passengers 
-            </div>
-            <div style={{ overflow: "auto"}}>
-              <div className="flex flex-wrap content-center rounded py-1 px-3 text-blue-900 item-center">
-                <Table
-                  data={this.state.RegPassDetails}
-                  columns={this.state.columns}
-                />
+          {this.state.RegPassDetails == null ? null : (
+            <>
+              <div
+                className="content-center rounded  px-3 text-blue-900 "
+                style={{
+                  textAlign: "center",
+                  fontSize: 28,
+                  fontFamily: "serif",
+                  fontWeight: "bold",
+                }}
+              >
+                <br />
+                Count of Registered passengers
               </div>
-            </div>{" "}
-          </>
-        )}
-
-
-
+              <br /> <br />
+              <div className="flex flex-wrap content-center justify-center">
+                <div style={{ overflow: "auto" }}>
+                  <div className="flex flex-wrap content-center rounded py-1 px-3 text-blue-900 item-center">
+                    <Table
+                      data={this.state.RegPassDetails}
+                      columns={this.state.columns}
+                    />
+                  </div>
+                </div>{" "}
+              </div>
+              <br /> <br />
+            </>
+          )}
         </div>
       </div>
     );

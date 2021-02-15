@@ -11,8 +11,13 @@ import React, { Component } from 'react'
 import {axiosGetInstance} from "./axios/axios"
 import AgeFilter from "./pages/admin/AgeFilter";
 import PassCount from "./pages/admin/PassCount";
+import Delay from "./pages/admin/delay";
 import PassFlights from "./pages/admin/PassFlights";
 import CountDestination from "./pages/admin/CountDestination";
+import TotalRevenueOfAircraft from "./pages/admin/TotalRevenueOfAircraft";
+import Profile from "./pages/user/Profile";
+import EditProfile from "./pages/user/EditProfile";
+import ChangePassword from "./pages/user/ChangePassword";
 
 class App extends Component{
 
@@ -78,6 +83,21 @@ class App extends Component{
 
             <Route exact path="/admin/PassFlights">
             <PassFlights /> </Route>
+          
+            <Route exact path="/admin/TotalRevenueOfAircraft">
+            <TotalRevenueOfAircraft /> </Route>
+
+            <Route exact path="/admin/delay">
+            <Delay /> </Route>
+
+            <Route exact path="/user/profile">
+            <Profile /> </Route>
+
+            <Route exact path="/user/editProfile">
+            <EditProfile /> </Route>
+
+            <Route exact path="/user/changePassword">
+            <ChangePassword /> </Route>
 
       </Router>
 

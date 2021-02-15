@@ -1,11 +1,22 @@
 import React, { Component } from 'react'
 import { AiOutlineClose } from 'react-icons/ai';
 import {axiosGetInstance} from "../axios/axios"
+import Modal from 'react-modal';
+import BookSeatGuest from './BookSeatGuest';
+import { ToastContainer, toast } from 'react-toastify';
+import BookSeatRegisteredUser from './BookSeatRegisteredUser';
+import history from "../utils/history";
 
 class SeatArrangement extends Component {
+
+    
+
     constructor(props){
+        
+
         super(props)
         this.state={
+            isOpen:false,
             economy_seats:[],
             business_seats:[],
             platinum_seats:[],
@@ -16,6 +27,7 @@ class SeatArrangement extends Component {
     }
 
     componentDidMount(){
+        
         Object.entries(this.props.seat_details).forEach(([key, value]) => {
             switch(value.CLASS_NAME){
                 case "Economy":
@@ -46,7 +58,43 @@ class SeatArrangement extends Component {
         //console.log(this.state.selectedSeat)
     }
 
+    closeModel=()=>{
+        this.setState({isOpen:false})
+    }
+    
+    bookingSuccess=(msg)=>{
+        toast.success(msg,{
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: true,
+        });
+        setTimeout(() => {
+            history.push("/schedule")
+        }, 3000);
+    }
+
+    bookingFailed=(msg)=>{
+        console.log("Booking Failed")
+        toast.error(msg,{
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: true
+        });
+    }
+
     render() {
+        const customStyles = {
+            content : {
+              
+              top                   : '55%',
+              left                  : '50%',
+              right                 : 'auto',
+              bottom                : 'auto',
+              marginRight           : '-50%',
+              transform             : 'translate(-50%, -50%)'
+            }
+          };
+
         return (  
             <>
             
@@ -112,7 +160,7 @@ class SeatArrangement extends Component {
                         <div className="mt-3">Price :- Rs {this.state.selectedSeat.priceDetails.default_price}/=</div>
                            
                         {
-                        this.state.selectedSeat.priceDetails.package_name=="Basic"?null:
+                        this.state.selectedSeat.priceDetails.package_name==="Basic"?null:
                         
                             <div className="mt-3">Discount Price :- Rs {this.state.selectedSeat.priceDetails.discount_price}/=</div>
                        
@@ -128,7 +176,8 @@ class SeatArrangement extends Component {
                         }
                         
 
-                        <button className="mt-3 w-55 rounded py-1 px-3 text-blue-900 border-2 border-blue-900 hover:bg-blue-900 hover:text-white">Make a Booking</button>
+                        <button onClick={()=>{
+                            this.setState({isOpen:true})}} className="mt-3 w-55 rounded py-1 px-3 text-blue-900 border-2 border-blue-900 hover:bg-blue-900 hover:text-white">Make a Booking</button>
                     </div>
                     
                 </div>
@@ -140,6 +189,15 @@ class SeatArrangement extends Component {
             :null}
             
             </div> 
+
+            <Modal ariaHideApp={false} onRequestClose={()=>this.setState({isOpen:false})} isOpen={this.state.isOpen} style={customStyles}>
+                {this.props.user?
+                <BookSeatRegisteredUser bookingFailed={this.bookingFailed} bookingSuccess={this.bookingSuccess} user={this.props.user} closeModel={this.closeModel} flight_id={this.props.flight_id} selectedSeat={this.state.selectedSeat}/>
+                :
+                <BookSeatGuest bookingFailed={this.bookingFailed} bookingSuccess={this.bookingSuccess} user={this.props.user} closeModel={this.closeModel} flight_id={this.props.flight_id} selectedSeat={this.state.selectedSeat}/>}
+                
+            </Modal>
+            <ToastContainer />
             </>
         )
     }

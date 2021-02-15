@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-toastify/dist/ReactToastify.css';
 import PulseLoader from "react-spinners/PulseLoader";
+import moment from 'moment';
 
 class SignUp extends Component {
     constructor(props) {
@@ -85,6 +86,10 @@ class SignUp extends Component {
             default:
         }
     }
+
+    dateValue(date){
+        return moment(date).format('YYYY-MM-DD')
+    }
     
     render() {
         return (
@@ -94,7 +99,7 @@ class SignUp extends Component {
                     <input onChange={(e)=>{this.changeInput("name",e)}} value={this.state.formdata.name} className="w-full py-1 px-2 rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5" placeholder="Name" type="text"/>
                     <input onChange={(e)=>{this.changeInput("contact_no",e)}} value={this.state.formdata.contact_no} className="w-full py-1 px-2 rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5" placeholder="Contact no" type="text"/>
                     <input onChange={(e)=>{this.changeInput("passport_no",e)}} value={this.state.formdata.passport_no} className="w-full py-1 px-2 rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5" placeholder="Passport no" type="text"/>
-                    <input onChange={(e)=>{this.changeInput("birthday",e)}} value={this.state.formdata.birthday} className="w-full py-1 px-2 rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5" placeholder="Birthday" type="text"/>
+                    <input type="text" placeholder="Birthday" onFocus={(e) => e.target.type = 'date'} onChange={(e)=>{this.changeInput("birthday",e)}} value={this.state.formdata.birthday} className="w-full py-1 px-2 rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5"  />
                     <input onChange={(e)=>{this.changeInput("country",e)}} value={this.state.formdata.country} className="w-full py-1 px-2 rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5" placeholder="Country" type="text"/>
                     <input onChange={(e)=>{this.changeInput("email",e)}} value={this.state.formdata.email} className="w-full py-1 px-2 rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5" placeholder="Email" type="text"/>
                     <input onChange={(e)=>{this.changeInput("password",e)}} value={this.state.formdata.password} className="w-full py-1 px-2 rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5" placeholder="Password" type="password"/><br/>
