@@ -5,9 +5,9 @@ import history from "../utils/history";
 import moment from 'moment';
 import { RiPlaneLine } from 'react-icons/ri';
 class Schedule extends Component {
+
     constructor(props) {
-        super(props)
-    
+        super(props)    
         this.state = {
              user:null,
              loginStat:false,
@@ -84,6 +84,7 @@ class Schedule extends Component {
             </div>
         )
     }
+    
 }
 
 export default Schedule

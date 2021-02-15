@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import Nav from "./Nav";
 import PulseLoader from "react-spinners/PulseLoader";
-import history from "../../utils/history";
 import { axiosGetInstance } from "../../axios/axios";
-import { ToastContainer, toast } from "react-toastify";
-import moment from "moment";
+
 
 class CountDestination extends Component {
   constructor(props) {
@@ -22,32 +20,33 @@ class CountDestination extends Component {
     };
   }
 
-  
   handleValidation() {
     let errors = {};
-   let formIsValid = true;
+    let formIsValid = true;
 
-  
-   if (!this.state.formdata.start_date) {
-     formIsValid = false;
-     errors["start_date"] = "'Start Date' cannot be empty !";
-   }
+    if (!this.state.formdata.start_date) {
+      formIsValid = false;
+      errors["start_date"] = "'Start Date' cannot be empty !";
+    }
 
-   if (!this.state.formdata.end_date) {
-    formIsValid = false;
-    errors["end_date"] = "'End Date' cannot be empty !";
+    if (!this.state.formdata.end_date) {
+      formIsValid = false;
+      errors["end_date"] = "'End Date' cannot be empty !";
     }
     if (!this.state.formdata.destination) {
       formIsValid = false;
       errors["destination"] = "'Destination' cannot be empty !";
     }
-    if (this.state.formdata.end_date<=this.state.formdata.start_date &&  formIsValid) {
+    if (
+      this.state.formdata.end_date <= this.state.formdata.start_date &&
+      formIsValid
+    ) {
       formIsValid = false;
       errors["date_range"] = "'Start Date' should be less than 'End Date' !";
     }
-   this.setState({ errors: errors });
-   return formIsValid;
- }
+    this.setState({ errors: errors });
+    return formIsValid;
+  }
 
   setValues = (type, e) => {
     if (type === "start_date") {
@@ -68,25 +67,22 @@ class CountDestination extends Component {
 
   getPassengersDetails = () => {
     if (this.handleValidation()) {
-     
       this.setState({ loading: true });
       alert("Successfuly Submitted");
 
-    axiosGetInstance()
-      .post(`admin/passdescount`, this.state.formdata)
-      .then((result) => {
-        this.setState({ loading: false });
-        this.setState({ count: result.data.data.pass_des_count });
-        this.setState({ countState: true });
-      })
-      .catch((err) => {
-        console.log("Error getting count");
-      });
+      axiosGetInstance()
+        .post(`admin/passdescount`, this.state.formdata)
+        .then((result) => {
+          this.setState({ loading: false });
+          this.setState({ count: result.data.data.pass_des_count });
+          this.setState({ countState: true });
+        })
+        .catch((err) => {
+          console.log("Error getting count");
+        });
     } else {
-
       // alert("Error getting passengers details");
     }
-
   };
 
   render() {
@@ -106,10 +102,10 @@ class CountDestination extends Component {
                   <label
                     style={{
                       fontSize: 15,
-                      fontWeight: "bold"
+                      fontWeight: "bold",
                     }}
                   >
-                    SELECT START  DATE{" "}
+                    SELECT START DATE{" "}
                   </label>
                 </div>
                 <input
@@ -118,13 +114,14 @@ class CountDestination extends Component {
                   className="w-full    rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5 px-2"
                   type="date"
                 ></input>
-
-
               </form>
-             < div  className="text-center"> <span style={{ color: "red" }}>
-                {this.state.errors["start_date"]}
-              </span></div><br/>
-             
+              <div className="text-center">
+                {" "}
+                <span style={{ color: "red" }}>
+                  {this.state.errors["start_date"]}
+                </span>
+              </div>
+              <br />
 
               <form className="z-10 flex sticky top-0 w-full justify-between py-1  px-2">
                 <div className="z-10 flex sticky top-0 w-full  text-blue-900  justify-between py-1  px-2">
@@ -136,7 +133,7 @@ class CountDestination extends Component {
                       fontWeight: "bold",
                     }}
                   >
-                    SELECT END  DATE{" "}
+                    SELECT END DATE{" "}
                   </label>
                 </div>
                 <input
@@ -146,10 +143,13 @@ class CountDestination extends Component {
                   type="date"
                 ></input>
               </form>
-              < div  className="text-center"> <span style={{ color: "red" }}>
-                {this.state.errors["end_date"]}
-              </span></div><br/>
-             
+              <div className="text-center">
+                {" "}
+                <span style={{ color: "red" }}>
+                  {this.state.errors["end_date"]}
+                </span>
+              </div>
+              <br />
 
               <form className="z-10 flex sticky top-0 w-full justify-between py-1  px-2">
                 <div className="z-10 flex sticky top-0 w-full text-blue-900 justify-between py-1  px-2">
@@ -168,16 +168,19 @@ class CountDestination extends Component {
                   onChange={(e) => this.setValues("destination", e)}
                   className="w-full   rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5 px-2"
                 >
-                   <option  value="">destination </option>
+                  <option value="">destination </option>
                   <option value="bom">BOM </option>
                   <option value="bia">BIA</option>
                   <option value="bkk">BKK</option>
                 </select>
               </form>
-              < div  className="text-center"> <span style={{ color: "red" }}>
-                {this.state.errors["destination"]}
-              </span></div><br/>
-             
+              <div className="text-center">
+                {" "}
+                <span style={{ color: "red" }}>
+                  {this.state.errors["destination"]}
+                </span>
+              </div>
+              <br />
 
               <div className="flex justify-center">
                 <div
@@ -191,13 +194,15 @@ class CountDestination extends Component {
                   />
                   {!this.state.loading ? "SUBMIT" : null}
                 </div>
-                
               </div>
-              < div  className="text-center"> <span style={{ color: "red" }}>
-                {this.state.errors["date_range"]}
-              </span></div><br/>
+              <div className="text-center">
+                {" "}
+                <span style={{ color: "red" }}>
+                  {this.state.errors["date_range"]}
+                </span>
+              </div>
+              <br />
             </div>
-           
           </div>
           {this.state.countState ? (
             <div

@@ -75,7 +75,15 @@ class PassFlights extends Component {
   if (!this.state.formdata.destination) {
     formIsValid = false;
     errors["destination"] = "'Destination' cannot be empty !";
-  }
+    }
+    
+    if (
+      this.state.formdata.destination <= this.state.formdata.origin &&
+      formIsValid
+    ) {
+      formIsValid = false;
+      errors["destination_range"] = "'Origin' and 'Destination' can't be same !";
+    }
    
     
    this.setState({ errors: errors });
@@ -224,9 +232,13 @@ class PassFlights extends Component {
                 </div>
                 
               </div>
-              < div  className="text-center"> <span style={{ color: "red" }}>
-               
-              </span></div><br/>
+              <div className="text-center">
+                {" "}
+                <span style={{ color: "red" }}>
+                  {this.state.errors["destination_range"]}
+                </span>
+              </div>
+              <br />
             </div>
           </div>
 
@@ -270,7 +282,8 @@ class PassFlights extends Component {
                   columns={this.state.columns}
                 />
               </div>
-            </div>{" "}
+              </div>{" "}
+              <br/> <br/>
           </>
         )}
 
