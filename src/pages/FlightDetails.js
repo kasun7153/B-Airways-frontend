@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import {axiosGetInstance} from "../axios/axios"
 import PulseLoader from "react-spinners/PulseLoader";
-import history from "../utils/history";
 import SeatArrangement from './SeatArrangement';
 import moment from 'moment';
 
@@ -29,7 +28,7 @@ class FlightDetails extends Component {
     }
 
     date(date){
-            return <div>{moment(date).utc().format('DD-MM-YYYY')}</div>
+            return <div>{moment(date).format('DD-MM-YYYY')}</div>
     }
 
     render() {
@@ -47,7 +46,7 @@ class FlightDetails extends Component {
                 {this.state.flight.start_time}
                 </div>
                 <div className="mr-5 ml-5">
-                    <img className="w-20 h-20" src="/assets/white-plan.png"></img>
+                    <img alt="Img" className="w-20 h-20" src="/assets/white-plan.png"></img>
                 </div>
                 <div>
                     {this.state.flight.destination_city} -{'>'} {this.state.flight.destination_state} -{'>'} {this.state.flight.destination_country}
@@ -59,7 +58,7 @@ class FlightDetails extends Component {
         </div>
         </div>:null}
 
-        {this.state.flight?<SeatArrangement flight_id={this.state.flight.flight_id} seat_details={this.state.flight.seat_info}/>:
+        {this.state.flight?<SeatArrangement user={this.props.user} flight_id={this.state.flight.flight_id} seat_details={this.state.flight.seat_info}/>:
         
 
         <div className="text-center mt-10">

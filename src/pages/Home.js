@@ -22,7 +22,7 @@ function Home(props) {
         <div style={{overflow:"hidden"}}>
             <div className="relative flex flex-col h-full">
                 <div className="overflow-hidden">
-                    <img className=" h-screen object-cover w-full" src="assets/background.jpeg"/>
+                    <img alt="img" className=" h-screen object-cover w-full" src="assets/background.jpeg"/>
                 </div>
 
                 

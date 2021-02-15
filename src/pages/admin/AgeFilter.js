@@ -217,8 +217,6 @@ class AgeFilter extends Component {
 
 
 
-
-
         {this.state.abovePassDetails == null ? null : (
           <>
             <div
