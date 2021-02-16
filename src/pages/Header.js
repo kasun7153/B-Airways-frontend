@@ -39,14 +39,17 @@ function Header(props) {
                 </>
                 :
              <>
-               <div to="/login" className="flex flex-wrap content-center item-center"> 
-                <div className=" cursor-pointer flex justify-center content-center ml-1 text-yellow-500 mr-8">
-                    <Link to="/user/profile">
-                        <CgProfile size="35"/>
-                    </Link>
-                    
-                </div>
-                </div>
+             {localStorage.getItem("type")==="User"?
+             <div className="flex flex-wrap content-center item-center"> 
+             <div className=" cursor-pointer flex justify-center content-center ml-1 text-yellow-500 mr-8">
+                 <Link to="/user/profile">
+                     <CgProfile size="35"/>
+                 </Link>
+                 
+             </div>
+             </div>
+             :null}
+               
 
                 <div className="flex flex-wrap content-center item-center">
                     <div onClick={logOut} className="cursor-pointer flex w-50 mr-2 rounded py-1 px-3 text-blue-900 border-2 border-blue-900 hover:bg-blue-900 hover:text-white">

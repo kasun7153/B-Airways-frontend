@@ -22,6 +22,7 @@ import TotalRevenueOfAircraft from "./pages/admin/TotalRevenueOfAircraft";
 import Profile from "./pages/user/Profile";
 import EditProfile from "./pages/user/EditProfile";
 import ChangePassword from "./pages/user/ChangePassword";
+import RouteGuard from "./pages/admin/RouteGuard";
 
 class App extends Component {
   constructor(props) {
@@ -40,6 +41,7 @@ class App extends Component {
       axiosGetInstance()
         .get("user/profile")
         .then((res) => {
+          console.log(res)
           if (res.data.success) {
             this.setState({ user: res.data.data });
             resolve(res.data.data);
@@ -94,6 +96,9 @@ class App extends Component {
             <Route exact path="/user/changePassword">
             <ChangePassword /> </Route>
         
+            <Route path="/admin">
+            <RouteGuard /> </Route>
+
         <Route exact path="/admin/ageFilter">
             <AgeFilter /> </Route>
           

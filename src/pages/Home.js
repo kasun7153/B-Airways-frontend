@@ -14,7 +14,7 @@ function Home(props) {
 
     useEffect(() => {       
         if(props.user){
-            history.push("/schedule");
+            localStorage.getItem("type")==="User"?history.push("/schedule"):history.push("admin/AdminHome");
         }
     }, [props.user])
 

@@ -4,6 +4,8 @@ import {axiosGetInstance} from "../axios/axios"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PulseLoader from "react-spinners/PulseLoader";
+import { RiAdminLine } from 'react-icons/ri';
+import { AiOutlineUser } from 'react-icons/ai';
 
 class Login extends Component {
 
@@ -12,17 +14,20 @@ class Login extends Component {
         this.state = {
              email:"",
              password:"",
-             loading:false
+             loading:false,
+             selected:"User"
         }
         
     }
     
 
     login=()=>{
-        this.setState({loading:true})
+        if(this.state.selected==="User"){
+            this.setState({loading:true})
         axiosGetInstance().post("/user/signin",this.state).then(res=>{
             this.setState({loading:false})
             if(res.data.token){
+                localStorage.setItem("type","User")
                 localStorage.setItem("token",res.data.token)
                 this.props.getProfile()
                 history.push("/schedule");
@@ -40,6 +45,33 @@ class Login extends Component {
             this.setState({loading:false})
             console.log(err)
         })
+        }
+        else{
+            this.setState({loading:true})
+        axiosGetInstance().post("/admin/signin",this.state).then(res=>{
+            console.log(res)
+            this.setState({loading:false})
+            if(res.data.token){
+                localStorage.setItem("token",res.data.token)
+                localStorage.setItem("type","Admin")
+                this.props.getProfile()
+                history.push("/admin/AdminHome");
+            }
+            else{
+                toast.error(res.data.message,{
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: true
+                });
+                console.log(res.data.message)
+            }
+
+        }).catch(err=>{
+            this.setState({loading:false})
+            console.log(err)
+        })
+        }
+        
     }
 
     setValues=(type,e)=>{
@@ -53,11 +85,27 @@ class Login extends Component {
     render() {
         return (
             <div className="flex flex-wrap content-center justify-center" style={{height:"90vh"}}>                
-                <div className="text-center w-90 border-2 p-10 rounded">
-                    <span className="font-bold block mb-10 text-3xl">Sign in to your account</span>
+                <div className="text-center w-90 border-2 px-28 py-20 rounded">
+                    <div className="flex mb-5">
+                        <div className={`cursor-pointer w-1/2  text-3xl ${this.state.selected==="User"?"font-bold border-red-400 border-b pb-3":""}`} onClick={()=>this.setState({selected:"User"})}>User</div>
+                        <div className={`cursor-pointer w-1/2  text-3xl ${this.state.selected==="Admin"?"font-bold border-red-400 border-b pb-3":""}`} onClick={()=>this.setState({selected:"Admin"})}>Admin</div>
+                    </div>
+                    {this.state.selected==="User"?
+                    <>
+                     <AiOutlineUser className="inline-block mt-5" size="100"/>
+                     <span className="font-bold block mt-5 mb-10 text-xl">Sign in to your account</span>
+                     </>:
+                      <>
+                      <RiAdminLine className="inline-block mt-5" size="100"/>
+                      <span className="font-bold block mt-5 mb-10 text-xl">Admin Login</span>
+                      </>
+                    }
+                   
+                    
                     <input onChange={(e)=>this.setValues("email",e)} value={this.state.email} className="w-full py-1  px-2 rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5" placeholder="Email" type="text"></input>
                     <input onChange={(e)=>this.setValues("password",e)} value={this.state.password} className="w-full py-1 px-2 rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5" placeholder="Password" type="password"></input><br/>
-                    <div onClick={this.login} className="rounded py-1 px-3 border-2 border-blue-900 bg-blue-900 text-white hover:shadow-2xl cursor-pointer"><PulseLoader color={"#FFFFFF"} loading={this.state.loading} size={5} />{!this.state.loading?"Sign in":null}</div>
+                    
+                    <div onClick={this.login} className="rounded py-1 px-3 border-2 border-blue-900 bg-blue-900 text-white hover:shadow-2xl cursor-pointer"><PulseLoader color={"#FFFFFF"} loading={this.state.loading} size={5} />{!this.state.loading?this.state.selected==="User"?"Sign in":"Admin Login":null}</div>
                 </div>
                 
                 <ToastContainer />

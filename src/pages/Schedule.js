@@ -14,8 +14,15 @@ class Schedule extends Component {
              flights:null,
              loading:true,
         }
+        
     }
-    
+    componentDidUpdate() {
+        if(this.props.user){
+            if(localStorage.getItem("type")==="Admin"){
+                history.push("/")
+            }
+        }
+    }
     componentDidMount(){
         this.getFlightSchedule()
     }
