@@ -172,8 +172,19 @@ class CountDestination extends Component {
                   <option value="bom">BOM </option>
                   <option value="bia">BIA</option>
                   <option value="bkk">BKK</option>
+                  <option value="cgk">CGK</option>
+                  <option value="del">DEL</option>
+                  <option value="dmk">DMK</option>
+                  <option value="dps">DPS</option>                  
+                  <option value="hir">HIR</option>
+                  <option value="maa">MAA</option>
+                  <option value="sin">SIN</option>
                 </select>
               </form>
+
+
+
+
               <div className="text-center">
                 {" "}
                 <span style={{ color: "red" }}>

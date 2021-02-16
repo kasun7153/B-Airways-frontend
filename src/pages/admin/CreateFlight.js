@@ -82,13 +82,17 @@ class CreateFlight extends Component {
       axiosGetInstance()
         .post(`admin/createflight`, this.state.formdata)
         .then((result) => {
-          this.setState({ loading: false });
-          this.setState({ Status: result.data.data.Status });
-          if (this.state.Status == "1") {
-            alert("Successfuly Created");
-          } else {
-            alert("Can't Create, Please check again input data.");
-          }
+            this.setState({ loading: false });
+            this.setState({ Status: result.data.data.Status });
+            if (this.state.Status == "1")  {
+                alert("Successfuly Created");
+            }
+            else {
+                alert("Can't Create, Please check again input data.");
+            }
+         
+
+          
         })
         .catch((err) => {
           console.log("Error creating flight");

@@ -6,6 +6,7 @@ import BookSeatGuest from './BookSeatGuest';
 import { ToastContainer, toast } from 'react-toastify';
 import BookSeatRegisteredUser from './BookSeatRegisteredUser';
 import history from "../utils/history";
+import PulseLoader from "react-spinners/PulseLoader";
 
 class SeatArrangement extends Component {
 
@@ -20,7 +21,7 @@ class SeatArrangement extends Component {
             economy_seats:[],
             business_seats:[],
             platinum_seats:[],
-            loading:true
+            loading:false
             
         }
         console.log(this.props.seat_details)
@@ -47,9 +48,9 @@ class SeatArrangement extends Component {
     }
 
     selectSeat(seat){
-        this.setState({selectedSeat:null})
+        this.setState({selectedSeat:null,loading:true})
         axiosGetInstance().get(`/schedule/${this.props.flight_id}/${seat.SEAT_ID}`).then(res=>{
-            this.setState({selectedSeat:{seatID:seat.SEAT_ID, priceDetails:res.data}})
+            this.setState({selectedSeat:{seatID:seat.SEAT_ID, priceDetails:res.data},loading:false})
             console.log(this.state.selectedSeat)
         }).catch(err=>{
             console.log(err)
@@ -99,7 +100,13 @@ class SeatArrangement extends Component {
             <>
             
             
-             
+             {this.state.loading?
+                    <div >
+                    <div className="text-center mb-5">
+                        <PulseLoader color={"black"} loading={this.state.loading} size={15} />
+                    </div> 
+                    
+                </div>:null}
             <div className="flex flex-wrap justify-center"> 
             <div style={{width:"60%"}} className="flex flex-wrap justify-center">
             <div>
