@@ -45,7 +45,7 @@ function Nav(props) {
             className="flex flex-wrap content-center item-center"
           >
             <div className="flex w-50 mr-2 rounded py-1 px-3 text-blue-900   hover:text-white">
-            {selectedPage("Number of passengers with  destination","CountDestination")}
+            {selectedPage("Passengers with  destination","CountDestination")}
           </div>
         </Link>
         
@@ -54,7 +54,7 @@ function Nav(props) {
             className="flex flex-wrap content-center item-center"
           >
             <div className="flex w-50 mr-2 rounded py-1 px-3 text-blue-900   hover:text-white">
-            {selectedPage("Number of passengers with date range of a aircraft","PassCount")}
+            {selectedPage("Passengers with date range of a aircraft","PassCount")}
           </div>
         </Link>
 
@@ -72,7 +72,7 @@ function Nav(props) {
           className="flex flex-wrap content-center item-center"
         >
           <div className="flex w-50 mr-2 rounded py-1 px-3 text-blue-900   hover:text-white">
-            {selectedPage("Get total revenue of a aircraft","TotalRevenueOfAircraft")}
+            {selectedPage("Total revenue of a aircraft","TotalRevenueOfAircraft")}
           </div>
         </Link>
         
