@@ -20,7 +20,7 @@ class SignUp extends Component {
                 passport_no:"",
                 country:"",
                 password:"",
-                user_photo:"my_photo"
+                
              }
         }
     }
