@@ -54,7 +54,7 @@ function Nav(props) {
             className="flex flex-wrap content-center item-center"
           >
             <div className="flex w-50 mr-2 rounded py-1 px-3 text-blue-900   hover:text-white">
-            {selectedPage("Passengers with date range of a aircraft","PassCount")}
+            {selectedPage("Number of Bookings by each passenger type with date range","PassCount")}
           </div>
         </Link>
 
