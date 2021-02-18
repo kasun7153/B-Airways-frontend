@@ -10,6 +10,7 @@ import {FaPassport } from 'react-icons/fa';
 import {MdToday } from 'react-icons/md';
 import history from "../../utils/history";
 import { ToastContainer, toast } from 'react-toastify';
+import axios from "axios"
 
 class EditProfile extends Component {
     constructor(props){
@@ -30,7 +31,12 @@ class EditProfile extends Component {
     componentDidMount(){
 
         axiosGetInstance().get("user/profile").then(res=>{
-            console.log(res.data)
+            if(res.data.data.user_photo){
+                var base64Flag = 'data:image/jpeg;base64,';
+                var imageStr = this.arrayBufferToBase64(res.data.data.user_photo.data);
+                this.setState({img: base64Flag + imageStr})
+            }
+            
             this.setState({userProfile:res.data.data,loading:false})
             this.setState({userProfile:{...this.state.userProfile,birthday:this.dateValue(this.state.userProfile.birthday)}})
         }).catch(err=>{
@@ -38,17 +44,38 @@ class EditProfile extends Component {
         })
     }
 
+    arrayBufferToBase64=(buffer)=> {
+        var binary = '';
+        var bytes = [].slice.call(new Uint8Array(buffer));
+        bytes.forEach((b) => binary += String.fromCharCode(b));
+        return window.btoa(binary);
+    };
+
     saveChanges=()=>{
-        console.log(this.state.userProfile)
-        axiosGetInstance().post("user/editprofile",this.state.userProfile).then(res=>{
+        
+        const data= new FormData();
+
+        data.append('user_photo',this.state.file)
+
+        data.append('name',this.state.userProfile.name)
+        data.append('email',this.state.userProfile.email)
+        data.append('birthday',this.state.userProfile.birthday)
+        data.append('contact_no',this.state.userProfile.contact_no)
+        data.append('passport_no',this.state.userProfile.passport_no)
+        data.append('country',this.state.userProfile.country)
+ 
+        
+        this.setState({loading:true})
+        axiosGetInstance().post("user/editprofile",data).then(res=>{
+            console.log(res)
             if(res.data.success){
-                history.push("/user/profile")
+             history.push("/user/profile")
             }else{
                 toast.error(res.data.message,{
                     position: "top-right",
                     autoClose: 2000,
-                    hideProgressBar: true
-                });
+                 hideProgressBar: true
+             });
             }
         }).catch(err=>{
             console.log(err)
@@ -66,8 +93,22 @@ class EditProfile extends Component {
                 <div className="absolute transform -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
                 <div className="flex flex-wrap justify-center content-center mt-10 h-full">
                     <div>
+                        
                         <div className="text-center">
-                            <img className="inline rounded-full h-48 w-48 border-black-500 border-2" alt="profile Pic" src="https://www.searchpng.com/wp-content/uploads/2019/02/Men-Profile-Image-715x657.png" />
+                            {this.state.file?
+                            <img className="object-cover inline rounded-full h-48 w-48 border-black-500 border-2" alt="profile Pic" src={URL.createObjectURL(this.state.file)} />
+                            :
+                            <img className="object-cover inline rounded-full h-48 w-48 border-black-500 border-2" alt="profile Pic" src={this.state.img||"https://www.searchpng.com/wp-content/uploads/2019/02/Men-Profile-Image-715x657.png"} />}
+                            
+                        </div>
+
+                        <div className="text-center">
+                        <label id="lable">
+                            <input type="file" name="file" id="image" accept="image/*" style={{"display":"none"}} onChange={(e)=>{this.setState({
+                                file: e.target.files[0]
+                                })}}/>
+                            Upload Photo
+                        </label>
                         </div>
 
                         <div className="flex mt-7">

@@ -110,6 +110,7 @@ class AgeFilter extends Component {
       axiosGetInstance()
         .get(`admin/passagedetails/above/${this.state.flightId}`)
         .then((result) => {
+          
           this.setState({ loading: false });
           this.setState({ abovePassDetails: result.data.data });
         })
@@ -120,6 +121,7 @@ class AgeFilter extends Component {
       axiosGetInstance()
         .get(`admin/passagedetails/below/${this.state.flightId}`)
         .then((result) => {
+          
           this.setState({ loading: false });
           this.setState({ belowPassDetails: result.data.data });
         })
