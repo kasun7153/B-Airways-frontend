@@ -7,8 +7,8 @@ class CreateFlight extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        errors: {},
-        Status: "",
+      errors: {},
+      Status: "",
       formdata: {
         date: "",
         aircraft_id: "",
@@ -44,9 +44,9 @@ class CreateFlight extends Component {
       errors["route_id"] = "'Route Id' cannot be empty !";
     }
     if (!this.state.formdata.aircraft_id) {
-        formIsValid = false;
-        errors["aircraft_id"] = "'Aircraft Id' cannot be empty !";
-      }
+      formIsValid = false;
+      errors["aircraft_id"] = "'Aircraft Id' cannot be empty !";
+    }
     this.setState({ errors: errors });
     return formIsValid;
   }
@@ -56,7 +56,6 @@ class CreateFlight extends Component {
       this.setState({
         formdata: { ...this.state.formdata, date: e.target.value },
       });
-     
     } else if (type === "start_time") {
       this.setState({
         formdata: { ...this.state.formdata, start_time: e.target.value },
@@ -69,12 +68,11 @@ class CreateFlight extends Component {
       this.setState({
         formdata: { ...this.state.formdata, aircraft_id: e.target.value },
       });
-      }
-      else if (type === "route_id") {
-        this.setState({
-          formdata: { ...this.state.formdata, route_id: e.target.value },
-        });
-      }
+    } else if (type === "route_id") {
+      this.setState({
+        formdata: { ...this.state.formdata, route_id: e.target.value },
+      });
+    }
   };
 
   createFlight = () => {
@@ -99,7 +97,7 @@ class CreateFlight extends Component {
         .catch((err) => {
           console.log("Error creating flight");
         });
-    } 
+    }
   };
 
   render() {
@@ -111,23 +109,21 @@ class CreateFlight extends Component {
           <div
             className="flex flex-wrap content-center justify-center "
             style={{ height: "90vh" }}
-                >
-                    
-               
-                    <div className="z-10 flex sticky top-0 w-full text-blue-900 justify-center py-1  px-2" style={{
+          >
+            <div
+              className="z-10 flex sticky top-0 w-full text-blue-900 justify-center py-1  px-2"
+              style={{
                 textAlign: "center",
                 fontSize: 30,
                 fontFamily: "serif",
                 fontWeight: "bold",
-              }}>
+              }}
+            >
+              <h1>Creating New Flight</h1>
 
-                    <h1>Creating  New Flight</h1>
-                    
-                        <br />
-                        <br/></div>
-
-                  
-                   
+              <br />
+              <br />
+            </div>
 
             <div className=" border-2 p-10 rounded ">
               <form className="z-10 flex sticky top-0 w-full justify-between py-1  px-2">
@@ -156,9 +152,8 @@ class CreateFlight extends Component {
                   {this.state.errors["aircraft_id"]}
                 </span>
               </div>
-                        <br />
-                        
-                        
+              <br />
+
               <form className="z-10 flex sticky top-0 w-full justify-between py-1  px-2">
                 <div className="z-10 flex sticky top-0 w-full text-blue-900 justify-between py-1  px-2">
                   {" "}

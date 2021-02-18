@@ -24,7 +24,7 @@ class PassCount extends Component {
         },
 
         {
-          Header: "Num of Passengers",
+          Header: "Num of Bookings",
           accessor: "num_of_passengers",
         },
       ],
@@ -202,7 +202,7 @@ class PassCount extends Component {
                   className="w-full py-1   rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5 px-2"
                   type="text"
                 >
-                  Number of Guest Passengers : {this.state.count}{" "}
+                  Number of Guest Bookings : {this.state.count}{" "}
                 </h1>
               </div>
             </div>
@@ -220,7 +220,7 @@ class PassCount extends Component {
                 }}
               >
                 <br />
-                Count of Registered passengers
+                Number of Registered Bookings
               </div>
               <br /> <br />
               <div className="flex flex-wrap content-center justify-center">
