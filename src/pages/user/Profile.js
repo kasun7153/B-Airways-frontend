@@ -22,10 +22,22 @@ class profile extends Component {
         return <div>{moment(date).utc().format('DD-MM-YYYY')}</div>
     }
 
+    arrayBufferToBase64=(buffer)=> {
+        var binary = '';
+        var bytes = [].slice.call(new Uint8Array(buffer));
+        bytes.forEach((b) => binary += String.fromCharCode(b));
+        return window.btoa(binary);
+    };
+
     componentDidMount(){
         axiosGetInstance().get("user/profile").then(res=>{
-            console.log(res.data)
+            if(res.data.data.user_photo){
+                var base64Flag = 'data:image/jpeg;base64,';
+            var imageStr = this.arrayBufferToBase64(res.data.data.user_photo.data);
+            this.setState({img: base64Flag + imageStr})
+            }
             this.setState({userProfile:res.data.data,loading:false})
+            
         }).catch(err=>{
             console.log(err)
         })
@@ -43,7 +55,7 @@ class profile extends Component {
                 <div className="flex flex-wrap justify-center content-center mt-10 h-full">
                     <div>
                         <div className="text-center">
-                            <img className="inline rounded-full h-48 w-48 border-black-500 border-2" alt="profile Pic" src="https://www.searchpng.com/wp-content/uploads/2019/02/Men-Profile-Image-715x657.png" />
+                            <img className="object-cover inline rounded-full h-48 w-48 border-black-500 border-2" alt="profile Pic" src={this.state.img||"https://www.searchpng.com/wp-content/uploads/2019/02/Men-Profile-Image-715x657.png"} />
                         </div>
 
                         <div className="mt-7">
