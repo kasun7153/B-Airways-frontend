@@ -6,6 +6,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import PulseLoader from "react-spinners/PulseLoader";
 import { RiAdminLine } from 'react-icons/ri';
 import { AiOutlineUser } from 'react-icons/ai';
+import {Formik,Form} from "formik"
+import TextField from './TextField';
+import * as Yup from 'yup';
 
 class Login extends Component {
 
@@ -21,10 +24,10 @@ class Login extends Component {
     }
     
 
-    login=()=>{
+    login=(values)=>{
         if(this.state.selected==="User"){
             this.setState({loading:true})
-        axiosGetInstance().post("/user/signin",this.state).then(res=>{
+        axiosGetInstance().post("/user/signin",values).then(res=>{
             this.setState({loading:false})
             if(res.data.token){
                 localStorage.setItem("type","User")
@@ -48,7 +51,7 @@ class Login extends Component {
         }
         else{
             this.setState({loading:true})
-        axiosGetInstance().post("/admin/signin",this.state).then(res=>{
+        axiosGetInstance().post("/admin/signin",values).then(res=>{
             console.log(res)
             this.setState({loading:false})
             if(res.data.token){
@@ -82,10 +85,19 @@ class Login extends Component {
         }
     }
 
+
+
     render() {
+
+        const validate=Yup.object({
+            email: Yup.string().email("Email is invalid").required('Required'),
+            password:Yup.string().min(5,"Password should be more than 5 characters").max(15,"Password should be less than 15 characters").required("Required"),
+            
+        })
+
         return (
             <div className="flex flex-wrap content-center justify-center" style={{height:"90vh"}}>                
-                <div className="text-center w-90 border-2 px-28 py-20 rounded">
+                <div className="w-3/4 text-center w-90 border-2 px-28 py-20 rounded">
                     <div className="flex mb-5">
                         <div className={`cursor-pointer w-1/2  text-3xl ${this.state.selected==="User"?"font-bold border-red-400 border-b pb-3":""}`} onClick={()=>this.setState({selected:"User"})}>User</div>
                         <div className={`cursor-pointer w-1/2  text-3xl ${this.state.selected==="Admin"?"font-bold border-red-400 border-b pb-3":""}`} onClick={()=>this.setState({selected:"Admin"})}>Admin</div>
@@ -100,12 +112,29 @@ class Login extends Component {
                       <span className="font-bold block mt-5 mb-10 text-xl">Admin Login</span>
                       </>
                     }
-                   
+                    <Formik 
+                        initialValues={{
+                            email:"",
+                            password:""
+                        }}
+                        validationSchema={validate}
+                        onSubmit={values=>{this.login(values)}}
+                    >
+                {formik=>(
+                
+                        <Form>
+                            <TextField placeholder="email" name="email" type="text"/>
+                            <TextField placeholder="Password" name="password" type="password"/>
+                            
+                            <button type='submit' className="w-full rounded py-1 px-3 border-2 border-blue-900 bg-blue-900 text-white hover:shadow-2xl cursor-pointer">
+                            <PulseLoader color={"#FFFFFF"} loading={this.state.loading} size={5} />{!this.state.loading?this.state.selected==="User"?"Sign in":"Admin Login":null}
+                            </button>
+                        </Form>   
+                )}
+
+                    </Formik>
                     
-                    <input onChange={(e)=>this.setValues("email",e)} value={this.state.email} className="w-full py-1  px-2 rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5" placeholder="Email" type="text"></input>
-                    <input onChange={(e)=>this.setValues("password",e)} value={this.state.password} className="w-full py-1 px-2 rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5" placeholder="Password" type="password"></input><br/>
                     
-                    <div onClick={this.login} className="rounded py-1 px-3 border-2 border-blue-900 bg-blue-900 text-white hover:shadow-2xl cursor-pointer"><PulseLoader color={"#FFFFFF"} loading={this.state.loading} size={5} />{!this.state.loading?this.state.selected==="User"?"Sign in":"Admin Login":null}</div>
                 </div>
                 
                 <ToastContainer />
