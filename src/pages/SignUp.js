@@ -5,6 +5,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PulseLoader from "react-spinners/PulseLoader";
 import moment from 'moment';
+import {Formik,Form} from "formik"
+import TextField from './TextField';
+import * as Yup from 'yup';
+
+
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 
 class SignUp extends Component {
     constructor(props) {
@@ -12,22 +19,16 @@ class SignUp extends Component {
     
         this.state = {
             loading:false,
-             formdata:{
-                name:"",
-                email:"",
-                birthday:"",
-                contact_no:"",
-                passport_no:"",
-                country:"",
-                password:"",
-                
-             }
+            value:"",
+            contact_no:""
         }
+
     }
 
-    signUp=()=>{
+    signUp=(values)=>{
+        console.log({...values,contact_no:this.state.contact_no})
         this.setState({loading:true})
-        axiosGetInstance().post("/user/signup",this.state.formdata).then(res=>{
+        axiosGetInstance().post("/user/signup",values).then(res=>{
             this.setState({loading:false})
             if(res.data.sucess){
                 console.log(res.data.message)
@@ -52,62 +53,71 @@ class SignUp extends Component {
         
     }
     
-    changeInput=(name,e)=>{
-        switch(name){
-            case "name":
-                
-                this.setState({formdata:{...this.state.formdata,name:e.target.value}})
-                break;
-            case "email":
-                
-                this.setState({formdata:{...this.state.formdata,email:e.target.value}})
-                break;
-            case "birthday":
-                
-                this.setState({formdata:{...this.state.formdata,birthday:e.target.value}})
-                break;
-            case "contact_no":
-                
-                this.setState({formdata:{...this.state.formdata,contact_no:e.target.value}})
-                break;
-            case "passport_no":
-                
-                this.setState({formdata:{...this.state.formdata,passport_no:e.target.value}})
-                break;
-            case "country":
-                
-                this.setState({formdata:{...this.state.formdata,country:e.target.value}})
-                break;
-            case "password":
-                
-                this.setState({formdata:{...this.state.formdata,password:e.target.value}})
-                break;
-            default:
-        }
-    }
-
     dateValue(date){
         return moment(date).format('YYYY-MM-DD')
     }
+
     
     render() {
+        const validate=Yup.object({
+            name:Yup.string().min(3,"Name should have min 3 characters").required("Required"),
+            passport_no:Yup.string().min(5,"Invalid Passport Number").required("Required"),
+            birthday:Yup.date("Invalid Date").required("Required"),
+            country:Yup.string().min(2,"Invalid Country name").required("Required"),
+            email: Yup.string().email("Email is invalid").required('Required'),
+            password:Yup.string().min(5,"Password should be more than 5 characters").max(15,"Password should be less than 15 characters").required("Required"),
+            
+        })
+        
         return (
 
-            <div className="flex flex-wrap content-center justify-center" style={{height:"90vh"}}>
-                <div className="text-center border-2 p-10 rounded" style={{ width: "50%" }}>                    
-                    <span className="font-bold block mb-10 text-3xl">Create a new account</span>
-                    <input onChange={(e)=>{this.changeInput("name",e)}} value={this.state.formdata.name} className="w-full py-1 px-2 rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5" placeholder="Name" type="text"/>
-                    <input onChange={(e)=>{this.changeInput("contact_no",e)}} value={this.state.formdata.contact_no} className="w-full py-1 px-2 rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5" placeholder="Contact no" type="text"/>
-                    <input onChange={(e)=>{this.changeInput("passport_no",e)}} value={this.state.formdata.passport_no} className="w-full py-1 px-2 rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5" placeholder="Passport no" type="text"/>
-                    <input type="text" placeholder="Birthday" onFocus={(e) => e.target.type = 'date'} onChange={(e)=>{this.changeInput("birthday",e)}} value={this.state.formdata.birthday} className="w-full py-1 px-2 rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5"  />
-                    <input onChange={(e)=>{this.changeInput("country",e)}} value={this.state.formdata.country} className="w-full py-1 px-2 rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5" placeholder="Country" type="text"/>
-                    <input onChange={(e)=>{this.changeInput("email",e)}} value={this.state.formdata.email} className="w-full py-1 px-2 rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5" placeholder="Email" type="text"/>
-                    <input onChange={(e)=>{this.changeInput("password",e)}} value={this.state.formdata.password} className="w-full py-1 px-2 rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5" placeholder="Password" type="password"/><br/>
-                    <div onClick={this.signUp} className="rounded py-1 px-3 border-2 border-blue-900 bg-blue-900 text-white hover:shadow-2xl cursor-pointer"><PulseLoader color={"#FFFFFF"} loading={this.state.loading} size={5} />{!this.state.loading?"Sign Up":null}</div>
-                </div>
-                <ToastContainer />
-            </div>
+            <Formik 
+                initialValues={{
+                    name:"",
+                    passport_no:"",
+                    birthday:"",
+                    country:"",
+                    email:"",
+                    password:""
+                }}
+                validationSchema={validate}
+                onSubmit={values=>{this.signUp(values)}}
+            >
+                {formik=>(
+                    <div className="flex flex-wrap content-center justify-center" style={{height:"90vh"}}>
+                        <div className="text-center border-2 p-10 rounded" style={{ width: "50%" }}>
+                        <Form>
+                            <TextField placeholder="Full Name" name="name" type="text"/>
 
+                            <div className="mb-5">
+                                <PhoneInput 
+                                    country={"lk"} 
+                                    fullWidth="true"
+                                    containerClass="border-2 border-blue-900 text-left rounded" 
+                                    inputClass="bg-red-500 " 
+                                    inputStyle={{width:"100%",background:"rgba(239, 246, 255, var(--tw-bg-opacity))"}}
+                                    placeholder="Contact Number" 
+                                    value={this.state.contact_no} 
+                                    name="contact_no" 
+                                    enableSearch={true} 
+                                    onChange={phone=>this.setState({contact_no:phone})}/>
+                            </div>
+                    
+                            <TextField placeholder="Passport No" name="passport_no" type="text"/>
+                            <TextField placeholder="Birthday" max={this.dateValue(new Date)} name="birthday" type="date"/>
+                            <TextField placeholder="Country" name="country" type="text"/>
+                            <TextField placeholder="email" name="email" type="text"/>
+                            <TextField placeholder="Password" name="password" type="password"/>
+                            
+                            <button type='submit' className="w-28 rounded py-1 px-3 border-2 border-blue-900 bg-blue-900 text-white hover:shadow-2xl cursor-pointer mt-5">
+                                <PulseLoader color={"#FFFFFF"} loading={this.state.loading} size={5} />{!this.state.loading?"Sign Up":null}
+                            </button>
+                        </Form>   
+                        </div> 
+                        <ToastContainer />               
+                    </div>
+                )}
+            </Formik>
         )
     }
 }
