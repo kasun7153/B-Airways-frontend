@@ -1,6 +1,6 @@
 import Login from "./pages/Login";
 import "./App.css";
-import { Router, Route,Switch } from "react-router-dom";
+import { Router, Route,Switch,Redirect } from "react-router-dom";
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import Schedule from "./pages/Schedule";
@@ -24,7 +24,7 @@ import EditProfile from "./pages/user/EditProfile";
 import ChangePassword from "./pages/user/ChangePassword";
 import RouteGuard from "./pages/admin/RouteGuard";
 import AdminLogin from "./pages/AdminLogin";
-import PageNotFound from "./pages/PageNotFound";
+
 
 class App extends Component {
   constructor(props) {
@@ -136,8 +136,9 @@ class App extends Component {
 
             
 
-            <Route component={PageNotFound} />
+            <Redirect to="/" />
             </Switch>
+
             <Route path="/admin">
             <RouteGuard /> </Route>
       </Router>
