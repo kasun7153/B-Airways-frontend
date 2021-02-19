@@ -23,7 +23,7 @@ function Home(props) {
         <div className="overflow-hidden">
           <img
             alt="img"
-            className=" h-screen  w-full"
+            className="object-cover h-screen  w-full"
             src="/assets/background.jpeg"
           />
         </div>

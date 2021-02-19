@@ -26,9 +26,9 @@ class SignUp extends Component {
     }
 
     signUp=(values)=>{
-        console.log({...values,contact_no:this.state.contact_no})
+        console.log({...values,contact_no:"+"+this.state.contact_no})
         this.setState({loading:true})
-        axiosGetInstance().post("/user/signup",values).then(res=>{
+        axiosGetInstance().post("/user/signup",{...values,contact_no:this.state.contact_no}).then(res=>{
             this.setState({loading:false})
             if(res.data.sucess){
                 console.log(res.data.message)

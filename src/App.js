@@ -23,6 +23,7 @@ import Profile from "./pages/user/Profile";
 import EditProfile from "./pages/user/EditProfile";
 import ChangePassword from "./pages/user/ChangePassword";
 import RouteGuard from "./pages/admin/RouteGuard";
+import AdminLogin from "./pages/AdminLogin";
 
 class App extends Component {
   constructor(props) {
@@ -96,6 +97,9 @@ class App extends Component {
             <Route exact path="/user/changePassword">
             <ChangePassword /> </Route>
         
+            <Route exact path="/admin-login">
+            <AdminLogin getProfile={this.getProfile}/> </Route>
+
             <Route path="/admin">
             <RouteGuard /> </Route>
 

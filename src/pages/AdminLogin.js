@@ -10,7 +10,8 @@ import {Formik,Form} from "formik"
 import TextField from './TextField';
 import * as Yup from 'yup';
 
-class Login extends Component {
+class AdminLogin extends Component {
+    
 
     constructor(props) {    
         super(props)
@@ -18,7 +19,7 @@ class Login extends Component {
              email:"",
              password:"",
              loading:false,
-             selected:"User"
+             selected:"Admin"
         }
         
     }
@@ -98,7 +99,9 @@ class Login extends Component {
         return (
             <div className="flex flex-wrap content-center justify-center" style={{height:"90vh"}}>                
                 <div className="w-3/4 text-center w-90 border-2 px-28 py-20 rounded">
-             
+                    <div className="flex mb-5 justify-center">
+                        <div className={`cursor-pointer w-1/2  text-3xl ${this.state.selected==="Admin"?"font-bold border-red-400 border-b pb-3":""}`} onClick={()=>this.setState({selected:"Admin"})}>Admin</div>
+                    </div>
                     {this.state.selected==="User"?
                     <>
                      <AiOutlineUser className="inline-block mt-5" size="100"/>
@@ -141,4 +144,4 @@ class Login extends Component {
     }
 }
 
-export default Login
+export default AdminLogin
