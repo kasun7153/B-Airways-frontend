@@ -86,7 +86,10 @@ class SignUp extends Component {
                 {formik=>(
                     <div className="flex flex-wrap content-center justify-center" style={{height:"90vh"}}>
                         <div className="text-center border-2 p-10 rounded" style={{ width: "50%" }}>
+                        <span className="font-bold block mb-10 text-3xl">Create a new account</span>
+                        
                         <Form>
+                        
                             <TextField placeholder="Full Name" name="name" type="text"/>
 
                             <div className="mb-5">
