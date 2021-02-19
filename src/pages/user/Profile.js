@@ -30,13 +30,7 @@ class profile extends Component {
         return window.btoa(binary);
     };
 
-    componentDidUpdate(){
-        if(this.props.user){
-            if(localStorage.getItem("type")==="Admin"){
-                history.push("/")
-            }
-    }
-
+    componentDidMount(){
         axiosGetInstance().get("user/profile").then(res=>{
             if(res.data.data.user_photo){
                 var base64Flag = 'data:image/jpeg;base64,';
@@ -48,6 +42,16 @@ class profile extends Component {
         }).catch(err=>{
             console.log(err)
         })
+    }
+
+    componentDidUpdate(){
+        if(this.props.user){
+            if(localStorage.getItem("type")==="Admin"){
+                history.push("/")
+            }
+    }
+
+        
     }
 
     render() {

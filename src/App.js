@@ -1,6 +1,6 @@
 import Login from "./pages/Login";
 import "./App.css";
-import { Router, Route } from "react-router-dom";
+import { Router, Route,Switch } from "react-router-dom";
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import Schedule from "./pages/Schedule";
@@ -24,6 +24,7 @@ import EditProfile from "./pages/user/EditProfile";
 import ChangePassword from "./pages/user/ChangePassword";
 import RouteGuard from "./pages/admin/RouteGuard";
 import AdminLogin from "./pages/AdminLogin";
+import PageNotFound from "./pages/PageNotFound";
 
 class App extends Component {
   constructor(props) {
@@ -62,11 +63,15 @@ class App extends Component {
     return (
       <div>
         <Router history={history}>
-          <Header getProfile={this.getProfile} user={this.state.user}></Header>
-
+        <Header getProfile={this.getProfile} user={this.state.user}></Header>
+        
+          <Switch>
+        
           <Route exact path="/">
             <Home user={this.state.user} />
           </Route>
+
+          
 
           <Route exact path="/login">
             <Login getProfile={this.getProfile} />
@@ -99,10 +104,12 @@ class App extends Component {
         
             <Route exact path="/admin-login">
             <AdminLogin getProfile={this.getProfile}/> </Route>
-
-            <Route path="/admin">
-            <RouteGuard /> </Route>
-
+        
+            
+        
+            
+        
+            
         <Route exact path="/admin/ageFilter">
             <AgeFilter /> </Route>
           
@@ -127,8 +134,12 @@ class App extends Component {
             <Route exact path="/admin/delay">
             <Delay /> </Route>
 
-           
+            
 
+            <Route component={PageNotFound} />
+            </Switch>
+            <Route path="/admin">
+            <RouteGuard /> </Route>
       </Router>
 
        
