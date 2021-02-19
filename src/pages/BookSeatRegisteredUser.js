@@ -1,12 +1,6 @@
 import React, { Component } from 'react'
-import {MdEmail } from 'react-icons/md';
-import {BsPersonFill } from 'react-icons/bs';
-import {ImMobile } from 'react-icons/im';
-import {BiWorld } from 'react-icons/bi';
-import {FaPassport } from 'react-icons/fa';
 import {axiosGetInstance} from "../axios/axios"
-import history from "../utils/history";
-import { ToastContainer, toast } from 'react-toastify';
+import PulseLoader from "react-spinners/PulseLoader";
 
 class BookSeatRegisteredUser extends Component {
    
@@ -14,17 +8,20 @@ class BookSeatRegisteredUser extends Component {
     constructor(props){
         super(props)
         this.state={
+            loading:false,
             userProfile:""
         }
     }
 
     boookSeat=()=>{
+        this.setState({loading:true})
         axiosGetInstance().post("/user/bookseat",{
             flight_id:this.props.flight_id,
             seat_id:this.props.selectedSeat.seatID,
             discount_price:this.props.selectedSeat.priceDetails.discount_price,
         }).then(res=>{
-            if(res.data.sucess){
+            this.setState({loading:false})
+            if(res.data.success){
                 this.props.bookingSuccess(res.data.message)
                 
             }
@@ -34,6 +31,7 @@ class BookSeatRegisteredUser extends Component {
             }
            
         }).catch(err=>{
+            this.setState({loading:false})
             console.log(err)
         })
     }
@@ -49,10 +47,14 @@ class BookSeatRegisteredUser extends Component {
                     </div>
 
                   
-
-                     
-
-                        <div className="px-7 mt-10 flex justify-between">
+                    {this.state.loading?
+                    <div className="mt-10 flex flex-wrap justify-center">
+                        <PulseLoader  color={"black"} loading={this.state.loading} size={20} />
+                    </div>
+                    
+                    :
+                    
+                    <div className="px-7 mt-10 flex justify-between">
                             <div onClick={this.props.closeModel} className="p-3 cursor-pointer rounded text-center text-xl text-red-500 border-2 border-red-500 hover:bg-red-500 hover:text-white">
                                 
                                     Cancel
@@ -65,6 +67,10 @@ class BookSeatRegisteredUser extends Component {
                                 
                             </div> 
                         </div>
+                    }
+                     
+
+                        
                 </div>
                </div>
                

@@ -89,13 +89,13 @@ class App extends Component {
         
         
         <Route exact path="/user/profile">
-            <Profile /> </Route>
+            <Profile user={this.state.user}/> </Route>
 
             <Route exact path="/user/editProfile">
-            <EditProfile /> </Route>
+            <EditProfile user={this.state.user}/> </Route>
 
             <Route exact path="/user/changePassword">
-            <ChangePassword /> </Route>
+            <ChangePassword user={this.state.user}/> </Route>
         
             <Route exact path="/admin-login">
             <AdminLogin getProfile={this.getProfile}/> </Route>

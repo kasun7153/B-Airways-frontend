@@ -13,7 +13,13 @@ class ChangePassword extends Component {
             newPasswordConfirm:""
         }
     }
-
+    componentDidUpdate(){
+        if(this.props.user){
+            if(localStorage.getItem("type")==="Admin"){
+                history.push("/")
+            }
+        }
+    }
     changePassword=()=>{
         if(this.state.new_password===this.state.newPasswordConfirm){
             if(this.state.new_password){

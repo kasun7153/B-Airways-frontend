@@ -10,7 +10,7 @@ import {FaPassport } from 'react-icons/fa';
 import {MdToday } from 'react-icons/md';
 import history from "../../utils/history";
 import { ToastContainer, toast } from 'react-toastify';
-import axios from "axios"
+
 
 class EditProfile extends Component {
     constructor(props){
@@ -27,9 +27,16 @@ class EditProfile extends Component {
     dateValue(date){
         return moment(date).format('YYYY-MM-DD')
     }
+    componentDidUpdate(){
+        if(this.props.user){
+            if(localStorage.getItem("type")==="Admin"){
+                history.push("/")
+            }
+        }
+    }
 
     componentDidMount(){
-
+        
         axiosGetInstance().get("user/profile").then(res=>{
             if(res.data.data.user_photo){
                 var base64Flag = 'data:image/jpeg;base64,';
@@ -94,7 +101,7 @@ class EditProfile extends Component {
                 <div className="flex flex-wrap justify-center content-center mt-10 h-full">
                     <div>
                         
-                        <div className="text-center">
+                        <div className=" text-center">
                             {this.state.file?
                             <img className="object-cover inline rounded-full h-48 w-48 border-black-500 border-2" alt="profile Pic" src={URL.createObjectURL(this.state.file)} />
                             :

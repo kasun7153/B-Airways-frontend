@@ -5,14 +5,16 @@ import {ImMobile } from 'react-icons/im';
 import {BiWorld } from 'react-icons/bi';
 import {FaPassport } from 'react-icons/fa';
 import {axiosGetInstance} from "../axios/axios"
-import history from "../utils/history";
 import moment from 'moment';
 import {MdToday } from 'react-icons/md';
+import PulseLoader from "react-spinners/PulseLoader";
+
 class BookSeatGuest extends Component {
 
     constructor(props){
         super(props)
         this.state={
+            loading:false,
             userProfile:{
                 birthday:moment(new Date()).format('YYYY-MM-DD')
             }
@@ -24,6 +26,7 @@ class BookSeatGuest extends Component {
     }
 
     boookSeat=()=>{
+        this.setState({loading:true})
         axiosGetInstance().post("/user/bookseat",{
             guest_data:{
                 name:this.state.userProfile.name,
@@ -38,6 +41,7 @@ class BookSeatGuest extends Component {
             discount_price:this.props.selectedSeat.priceDetails.default_price,
             
         }).then(res=>{
+            this.setState({loading:false})
             if(res.data.success){
                 this.props.bookingSuccess(res.data.message)
                
@@ -48,6 +52,7 @@ class BookSeatGuest extends Component {
             }
            
         }).catch(err=>{
+            this.setState({loading:false})
             console.log(err)
         })
     }
@@ -129,8 +134,13 @@ class BookSeatGuest extends Component {
                                
                             </div>  
                         </div>
-
-                        <div className="px-7 mt-10 flex justify-between">
+                        {this.state.loading?
+                    <div className="mt-10">
+                        <PulseLoader  color={"black"} loading={this.state.loading} size={20} />
+                    </div>
+                    
+                    :
+                    <div className="px-7 mt-10 flex justify-between">
                             <div onClick={this.props.closeModel} className="p-3 cursor-pointer rounded text-center text-xl text-red-500 border-2 border-red-500 hover:bg-red-500 hover:text-white">
                                 
                                     Cancel
@@ -143,6 +153,8 @@ class BookSeatGuest extends Component {
                                 
                             </div> 
                         </div>
+                    }
+                        
                 </div>
                </div>
                

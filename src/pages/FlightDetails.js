@@ -3,6 +3,7 @@ import {axiosGetInstance} from "../axios/axios"
 import PulseLoader from "react-spinners/PulseLoader";
 import SeatArrangement from './SeatArrangement';
 import moment from 'moment';
+import history from "../utils/history";
 
 class FlightDetails extends Component {
     constructor(props) {
@@ -13,6 +14,11 @@ class FlightDetails extends Component {
         }
     }
     componentDidMount(){
+        if(this.props.user){
+            if(localStorage.getItem("type")==="Admin"){
+                history.push("/")
+            }
+        }
         this.getFlightDetails()
     }
     

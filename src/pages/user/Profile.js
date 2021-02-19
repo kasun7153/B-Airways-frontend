@@ -9,6 +9,7 @@ import {BiWorld } from 'react-icons/bi';
 import {FaPassport } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import {MdToday } from 'react-icons/md';
+import history from "../../utils/history";
 
 class profile extends Component {
     constructor(props){
@@ -29,7 +30,13 @@ class profile extends Component {
         return window.btoa(binary);
     };
 
-    componentDidMount(){
+    componentDidUpdate(){
+        if(this.props.user){
+            if(localStorage.getItem("type")==="Admin"){
+                history.push("/")
+            }
+    }
+
         axiosGetInstance().get("user/profile").then(res=>{
             if(res.data.data.user_photo){
                 var base64Flag = 'data:image/jpeg;base64,';
