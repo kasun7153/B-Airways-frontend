@@ -25,6 +25,8 @@ class Delay extends Component {
   handleValidation() {
     let errors = {};
    let formIsValid = true;
+   var date = new Date();
+  var mydate=new Date(this.state.formdata.date);
 
   
    if (!this.state.formdata.date) {
@@ -32,6 +34,11 @@ class Delay extends Component {
     errors["date"] = "'Date' cannot be empty !";
   }
 
+  if (date > mydate) {
+    if(!(mydate.getDate() === date.getDate() && mydate.getMonth() === date.getMonth() && mydate.getFullYear() === date.getFullYear())){
+    formIsValid = false;
+    errors["past_date"] = "'Date' should not be past !";
+  }}
 
   if (!this.state.formdata.start_time) {
     formIsValid = false;
@@ -242,7 +249,7 @@ class Delay extends Component {
                 
               </div>
               < div  className="text-center"> <span style={{ color: "red" }}>
-               
+              {this.state.errors["past_date"]}
               </span></div><br/>
             </div>
           </div>
