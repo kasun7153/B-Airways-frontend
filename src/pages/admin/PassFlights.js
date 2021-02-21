@@ -16,10 +16,10 @@ class PassFlights extends Component {
         origin: "",
         destination: "",
       },
-      count: "",
-      countState: false,
       loading: false,
       FlightDetails: null,
+      AirDetails: null,
+      PassDetails: null,
       columns: [
         {
           Header: "Route Id",
@@ -56,6 +56,37 @@ class PassFlights extends Component {
             Header: "Destination",
             accessor: "destination",
           },
+      ],
+      aircolumns: [
+        {
+          Header: "Airport ID",
+          accessor: "airport_id",
+        },
+
+        {
+          Header: "Country",
+          accessor: "country",
+        },
+        {
+          Header: "State",
+          accessor: "state",
+        },
+        {
+          Header: "City",
+          accessor: "city",
+        },
+      ],
+      passcolumns: [
+        {
+          Header: "Flight ID",
+          accessor: "flight_id",
+        },
+
+        {
+          Header: "Passenger Count",
+          accessor: "pass_count",
+        },
+        
       ],
     };
   }
@@ -111,6 +142,8 @@ class PassFlights extends Component {
     if (this.handleValidation()) {
 
         this.state.FlightDetails = [];
+        this.state.AirDetails = [];
+        this.state.PassDetails = [];
      
       this.setState({ loading: true });
       alert("Successfuly Submitted");
@@ -119,13 +152,10 @@ class PassFlights extends Component {
       .post(`admin/passcount`, this.state.formdata)
       .then((result) => {
         this.setState({ loading: false });
-        
-        this.setState({ count: result.data.data.pass_count });
-        //console.log(result.data.data.pass_count);
-        this.setState({ countState: true });
+        this.setState({ PassDetails: result.data.data });
       })
       .catch((err) => {
-        console.log("Error getting count");
+        console.log("Error getting passenger details");
       });
 
 
@@ -139,7 +169,15 @@ class PassFlights extends Component {
           console.log("Error getting flight details");
         });
 
-
+        axiosGetInstance()
+        .post(`admin/airport`, this.state.formdata)
+        .then((result) => {
+          this.setState({ loading: false });
+          this.setState({ AirDetails: result.data.data });
+        })
+        .catch((err) => {
+          console.log("Error getting airport details");
+        });
 
 
     } else {
@@ -259,21 +297,34 @@ class PassFlights extends Component {
 
 
 
-          {this.state.countState ? (
-            <div
-              className="flex flex-wrap content-center justify-center "
-              style={{ height: "30vh" }}
-            >
-              <div className="text-center w-90 border-2 p-10 rounded ">
-                <h1
-                  className="w-full py-1   rounded bg-blue-50 inline-block border-2 border-blue-900 mb-5 px-2"
-                  type="text"
-                >
-                  Number of Passengers : {this.state.count}{" "}
-                </h1>
+          {this.state.PassDetails == null ? null : (
+            <>
+              <div
+                className="content-center rounded  px-3 text-blue-900 "
+                style={{
+                  textAlign: "center",
+                  fontSize: 28,
+                  fontFamily: "serif",
+                  fontWeight: "bold",
+                }}
+              >
+                <br />
+                Number of Passengers in Each Past Flights
               </div>
-            </div>
-          ) : null}
+              <br /> <br />
+              <div className="flex flex-wrap content-center justify-center">
+                <div style={{ overflow: "auto" }}>
+                  <div className="flex flex-wrap content-center rounded py-1 px-3 text-blue-900 item-center">
+                    <Table
+                      data={this.state.PassDetails}
+                      columns={this.state.passcolumns}
+                    />
+                  </div>
+                </div>{" "}
+              </div>
+              <br /> <br />
+            </>
+          )}
 
 
         {this.state.FlightDetails == null  ? null : (
@@ -287,7 +338,7 @@ class PassFlights extends Component {
                 fontWeight: "bold",
               }}
             >
-              All Pass Flights
+              All Past Flights Details
             </div>
             <div style={{ overflow: "auto" }}>
               <div className="flex flex-wrap content-center rounded py-1 px-3 text-blue-900 item-center">
@@ -301,7 +352,34 @@ class PassFlights extends Component {
           </>
         )}
 
-
+        {this.state.AirDetails == null ? null : (
+            <>
+              <div
+                className="content-center rounded  px-3 text-blue-900 "
+                style={{
+                  textAlign: "center",
+                  fontSize: 28,
+                  fontFamily: "serif",
+                  fontWeight: "bold",
+                }}
+              >
+                <br />
+                State Details of Origin and Destination
+              </div>
+              <br /> <br />
+              <div className="flex flex-wrap content-center justify-center">
+                <div style={{ overflow: "auto" }}>
+                  <div className="flex flex-wrap content-center rounded py-1 px-3 text-blue-900 item-center">
+                    <Table
+                      data={this.state.AirDetails}
+                      columns={this.state.aircolumns}
+                    />
+                  </div>
+                </div>{" "}
+              </div>
+              <br /> <br />
+            </>
+          )}
 
         </div>
       </div>
