@@ -10,11 +10,15 @@ import {FaPassport } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import {MdToday } from 'react-icons/md';
 import history from "../../utils/history";
+import { ToastContainer, toast } from 'react-toastify';
+import Modal from 'react-modal';
+import DeleteAccountModal from './DeleteAccountModal';
 
 class profile extends Component {
     constructor(props){
         super(props)
         this.state={
+            isOpen:false,
             loading:true
         }
     }
@@ -49,12 +53,25 @@ class profile extends Component {
             if(localStorage.getItem("type")==="Admin"){
                 history.push("/")
             }
+    }  
     }
 
-        
+    deleteAccount=()=>{
+        this.setState({isOpen:true})
     }
 
     render() {
+        const customStyles = {
+            content : {
+              
+              top                   : '55%',
+              left                  : '50%',
+              right                 : 'auto',
+              bottom                : 'auto',
+              marginRight           : '-50%',
+              transform             : 'translate(-50%, -50%)'
+            }
+          };
         return (
             <div>
                 
@@ -149,10 +166,21 @@ class profile extends Component {
                             </div> 
                         </div>
 
+                        <div className="mt-10 flex">
+                            <div onClick={this.deleteAccount} className="w-full p-2 cursor-pointer rounded text-center text-2xl text-red-600 border-2 border-red-600 hover:bg-red-600 hover:text-white">
+                                    Delete Account    
+                            </div> 
+                        </div>
+
                     </div>
                 </div>
                 </div>
                 }
+                <Modal ariaHideApp={false} onRequestClose={()=>this.setState({isOpen:false})} isOpen={this.state.isOpen} style={customStyles}>
+
+                <DeleteAccountModal/>
+            </Modal>
+                <ToastContainer />
             </div>
         )
     }
