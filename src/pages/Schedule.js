@@ -46,28 +46,26 @@ class Schedule extends Component {
             const FlighrSchedules =this.state.flights.map(data=>{
                 return(
                     <div key={data.flight_id} onClick={()=>{history.push(`/schedule/${data.flight_id}`);}} className="cursor-pointer m-5 border-2 border-blue-500 p-5 rounded hover:bg-blue-900 hover:text-white">
-                        
-
                         <div>
-                    <div className="text-center text-3xl font-bold">Flight Id - {data.flight_id}</div>
-                    <div className="flex mt-10 justify-center">
-                        <div style={{width:"30%"}}>
-                            {data.origin_city} -{'>'} {data.origin_state} -{'>'} {data.origin_country}
-                            <br/>{this.date(data.date)}
-                            {data.start_time}
+                            <div className="text-center text-3xl font-bold">Flight ID - {data.flight_id}</div>
+                            <div className="flex mt-10 justify-center">
+                                <div style={{width:"30%"}} className="text-right">
+                                        {data.origin_city} -{'>'} {data.origin_state} -{'>'} {data.origin_country}
+                                        <br/>{this.date(data.date)}
+                                        {data.start_time}
+                                </div>
+
+                                <div className="mx-10">
+                                        <RiPlaneLine className="w-20 h-20"/>
+                                </div>
+
+                                <div style={{width:"30%"}}>
+                                    {data.destination_city} -{'>'} {data.destination_state} -{'>'} {data.destination_country}
+                                    <br/>{this.date(data.date)}
+                                    {data.end_time}
+                                </div>
+                            </div>
                         </div>
-                        <div className="mr-5 ml-5">
-                            <RiPlaneLine className="w-20 h-20"/>
-    
-                        </div>
-                        <div style={{width:"30%"}}>
-                            {data.destination_city} -{'>'} {data.destination_state} -{'>'} {data.destination_country}
-                            <br/>{this.date(data.date)}
-                            {data.end_time}
-                        </div>
-                    </div>
-            
-        </div>
                     </div>
                 )
             })
