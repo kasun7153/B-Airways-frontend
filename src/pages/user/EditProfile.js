@@ -97,7 +97,7 @@ class EditProfile extends Component {
                     <PulseLoader color={"black"}  size={20} />
                 </div>
                     :
-                <div className="absolute transform -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
+                <div className="">
                 <div className="flex flex-wrap justify-center content-center mt-10 h-full">
                     <div>
                         
@@ -182,7 +182,7 @@ class EditProfile extends Component {
                             </div>  
                         </div>
 
-                        <div className="mt-10">
+                        <div className="mt-10 mb-10">
                             <div onClick={this.saveChanges} className="p-2 cursor-pointer rounded text-center text-3xl text-blue-900 border-2 border-blue-900 hover:bg-blue-900 hover:text-white">
                                 
                                     Save Changes

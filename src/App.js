@@ -61,7 +61,7 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <div >
         <Router history={history}>
         <Header getProfile={this.getProfile} user={this.state.user}></Header>
         

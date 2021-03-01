@@ -79,7 +79,7 @@ class profile extends Component {
                     <PulseLoader color={"black"}  size={20} />
                 </div>
                     :
-                <div className="absolute transform -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
+                <div className="">
                 <div className="flex flex-wrap justify-center content-center mt-10 h-full">
                     <div>
                         <div className="text-center">
@@ -166,7 +166,7 @@ class profile extends Component {
                             </div> 
                         </div>
 
-                        <div className="mt-10 flex">
+                        <div className="mt-10 mb-10 flex">
                             <div onClick={this.deleteAccount} className="w-full p-2 cursor-pointer rounded text-center text-2xl text-red-600 border-2 border-red-600 hover:bg-red-600 hover:text-white">
                                     Delete Account    
                             </div> 

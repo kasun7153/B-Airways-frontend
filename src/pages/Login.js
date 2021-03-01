@@ -96,8 +96,8 @@ class Login extends Component {
         })
 
         return (
-            <div className="flex flex-wrap content-center justify-center" style={{height:"90vh"}}>                
-                <div className="w-3/4 text-center w-90 border-2 px-28 py-20 rounded">
+            <div className=" flex flex-wrap content-center justify-center" style={{height:"90vh"}}>                
+                <div className=" bg-white w-2/4 text-center w-90 border-2 px-28 py-20 rounded">
              
                     {this.state.selected==="User"?
                     <>
