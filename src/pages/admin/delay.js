@@ -100,7 +100,13 @@ class Delay extends Component {
       .post(`admin/delay`, this.state.formdata)
       .then((result) => {
         this.setState({ loading: false });
-        alert("Successfuly Updated");
+        this.setState({ Status: result.data.data.Status });
+            if (this.state.Status == "1")  {
+                alert("Successfuly Updated");
+            }
+            else {
+                alert("Input flight id isn't an existing Flight id");
+            }
         
         //console.log(result.data.data.pass_count);
         
