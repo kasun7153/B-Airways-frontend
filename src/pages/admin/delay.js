@@ -106,7 +106,7 @@ class Delay extends Component {
                 alert("Successfuly Updated");
             }
             else {
-                alert("Input flight id isn't an existing Flight id");
+                alert("Input flight id isn't a Upcoming Flight id");
             }
         
         //console.log(result.data.data.pass_count);
