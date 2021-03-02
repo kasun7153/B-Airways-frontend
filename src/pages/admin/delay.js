@@ -11,6 +11,7 @@ class Delay extends Component {
     super(props);
     this.state = {
       errors: {},
+      Status: "",
       formdata: {
         date: "",
         start_time: "",
