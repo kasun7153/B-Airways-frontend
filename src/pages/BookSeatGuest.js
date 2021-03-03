@@ -117,7 +117,7 @@ class BookSeatGuest extends Component {
                                 <ImMobile size="35"/>
                             </div>
 
-                            <div className="w-full flex text-xl flex-wrap align-middle content-center">
+                            <div className="ml-1 w-full flex text-xl flex-wrap align-middle content-center">
                             <div className='w-full'>
                                 <PhoneInput 
                                     country={"lk"} 

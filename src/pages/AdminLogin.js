@@ -98,7 +98,7 @@ class AdminLogin extends Component {
 
         return (
             <div className="flex flex-wrap content-center justify-center" style={{height:"90vh"}}>                
-                <div className="w-3/4 text-center w-90 border-2 px-28 py-20 rounded">
+                <div className="w-2/4 text-center w-90 border-2 px-28 py-20 rounded">
                     <div className="flex mb-5 justify-center">
                         <div className={`cursor-pointer w-1/2  text-3xl ${this.state.selected==="Admin"?"font-bold border-red-400 border-b pb-3":""}`} onClick={()=>this.setState({selected:"Admin"})}>Admin</div>
                     </div>
@@ -123,8 +123,14 @@ class AdminLogin extends Component {
                 {formik=>(
                 
                         <Form>
+                            <div className="mb-5">
                             <TextField placeholder="email" name="email" type="text"/>
+                            </div>
+                            <div className="mb-5">
                             <TextField placeholder="Password" name="password" type="password"/>
+                            </div>
+                            
+                            
                             
                             <button type='submit' className="w-full rounded py-1 px-3 border-2 border-blue-900 bg-blue-900 text-white hover:shadow-2xl cursor-pointer">
                             <PulseLoader color={"#FFFFFF"} loading={this.state.loading} size={5} />{!this.state.loading?this.state.selected==="User"?"Sign in":"Admin Login":null}
