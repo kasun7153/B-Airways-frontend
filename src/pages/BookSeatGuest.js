@@ -168,7 +168,7 @@ class BookSeatGuest extends Component {
                             </div>  
                         </div>
                         {this.state.loading?
-                    <div className="mt-10">
+                    <div className="mt-10 text-center">
                         <PulseLoader  color={"black"} loading={this.state.loading} size={20} />
                     </div>
                     
