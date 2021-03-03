@@ -87,7 +87,7 @@ class SeatArrangement extends Component {
         const customStyles = {
             content : {
               
-              top                   : '55%',
+              top                   : '50%',
               left                  : '50%',
               right                 : 'auto',
               bottom                : 'auto',

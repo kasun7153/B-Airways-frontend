@@ -8,12 +8,18 @@ import {axiosGetInstance} from "../axios/axios"
 import moment from 'moment';
 import {MdToday } from 'react-icons/md';
 import PulseLoader from "react-spinners/PulseLoader";
+import {Formik,Form} from "formik"
+import TextField from './TextField';
+import * as Yup from 'yup';
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 
 class BookSeatGuest extends Component {
 
     constructor(props){
         super(props)
         this.state={
+            contact_no:"",
             loading:false,
             userProfile:{
                 birthday:moment(new Date()).format('YYYY-MM-DD')
@@ -25,16 +31,11 @@ class BookSeatGuest extends Component {
         console.log(this.state.userProfile.birthday)
     }
 
-    boookSeat=()=>{
+    boookSeat=(values)=>{
         this.setState({loading:true})
         axiosGetInstance().post("/user/bookseat",{
             guest_data:{
-                name:this.state.userProfile.name,
-                email:this.state.userProfile.email,
-                birthday:this.state.userProfile.birthday,
-                contact_no:this.state.userProfile.contact_no,
-                passport_no:this.state.userProfile.passport_no,
-                country:this.state.userProfile.country
+                ...values,contact_no:"+"+this.state.contact_no
             },
             flight_id:this.props.flight_id,
             seat_id:this.props.selectedSeat.seatID,
@@ -62,11 +63,31 @@ class BookSeatGuest extends Component {
     }
 
     render() {
+        const validate=Yup.object({
+            name:Yup.string().min(3,"Name should have min 3 characters").required("Required"),
+            passport_no:Yup.string().min(5,"Invalid Passport Number").required("Required"),
+            birthday:Yup.date("Invalid Date").required("Required"),
+            country:Yup.string().min(2,"Invalid Country name").required("Required"),
+            email: Yup.string().email("Email is invalid").required('Required'),  
+        })
         return (
-            <div className="px-24 py-10">
+            <Formik 
+                initialValues={{
+                    name:"",
+                    passport_no:"",
+                    birthday:"",
+                    country:"",
+                    email:"",
+                }}
+                validationSchema={validate}
+                onSubmit={values=>{this.boookSeat(values)}}
+            >
+                {formik=>(
+                    <Form>
+                        <div className="px-24 py-10">
                 
                 <div className="flex flex-wrap justify-center align-center">
-                    <div>
+                    <div >
                     <div className="flex mt-7 justify-center">
                             <img className="w-24 h-24" src="/assets/logo.png"></img>
                         </div>
@@ -76,8 +97,8 @@ class BookSeatGuest extends Component {
                                 <BsPersonFill size="35"/>
                             </div>
 
-                            <div className="flex text-xl flex-wrap align-middle content-center">
-                                <input placeholder="Full name" className="w-80 border border-gray-300 pl-3 p-1 rounded  focus:outline-none focus:ring focus:border-blue-200" type="text" value={this.state.userProfile.name} onChange={(e)=>{this.setState({userProfile:{...this.state.userProfile,name:e.target.value}})}}/>
+                            <div className="flex text-xl w-96 flex-wrap content-center">
+                            <TextField placeholder="Full Name" name="name" type="text"/>
                             </div>  
                         </div>
 
@@ -86,8 +107,8 @@ class BookSeatGuest extends Component {
                                 <MdEmail size="35"/>
                             </div>
 
-                            <div className="flex text-xl flex-wrap align-middle content-center">
-                            <input type="email" placeholder="Email" className="w-80 border border-gray-300 pl-3 p-1 rounded  focus:outline-none focus:ring focus:border-blue-200" type="email" value={this.state.userProfile.email} onChange={(e)=>{this.setState({userProfile:{...this.state.userProfile,email:e.target.value}})}}/>
+                            <div className="flex text-xl w-96 flex-wrap content-center">
+                            <TextField placeholder="email" name="email" type="text"/>
                             </div>  
                         </div>
 
@@ -96,8 +117,20 @@ class BookSeatGuest extends Component {
                                 <ImMobile size="35"/>
                             </div>
 
-                            <div className="flex text-xl flex-wrap align-middle content-center">
-                            <input placeholder="Contact Number" className="w-80 border border-gray-300 pl-3 p-1 rounded  focus:outline-none focus:ring focus:border-blue-200" type="text" value={this.state.userProfile.contact_no} onChange={(e)=>{this.setState({userProfile:{...this.state.userProfile,contact_no:e.target.value}})}}/>
+                            <div className="w-full flex text-xl flex-wrap align-middle content-center">
+                            <div className='w-full'>
+                                <PhoneInput 
+                                    country={"lk"} 
+                                    fullWidth="true"
+                                    containerClass="border-2 border-blue-900 text-left rounded" 
+                                    inputClass="bg-red-500 " 
+                                    inputStyle={{width:"100%",background:"rgba(239, 246, 255, var(--tw-bg-opacity))"}}
+                                    placeholder="Contact Number" 
+                                    value={this.state.contact_no} 
+                                    name="contact_no" 
+                                    enableSearch={true} 
+                                    onChange={phone=>this.setState({contact_no:phone})}/>
+                            </div>
                             </div>  
                         </div>
 
@@ -106,8 +139,8 @@ class BookSeatGuest extends Component {
                                 <BiWorld size="35"/>
                             </div>
 
-                            <div className="flex text-xl flex-wrap align-middle content-center">
-                            <input placeholder="Country" className="w-80 border border-gray-300 pl-3 p-1 rounded  focus:outline-none focus:ring focus:border-blue-200" type="text" value={this.state.userProfile.country} onChange={(e)=>{this.setState({userProfile:{...this.state.userProfile,country:e.target.value}})}}/>
+                            <div className="flex text-xl w-96 flex-wrap content-center">
+                            <TextField placeholder="Country" name="country" type="text"/>
                                 
                             </div>  
                         </div>
@@ -117,9 +150,9 @@ class BookSeatGuest extends Component {
                                 <MdToday size="35"/>
                             </div>
 
-                            <div className="flex text-xl flex-wrap align-middle content-center">
+                            <div className="flex text-xl w-96 flex-wrap content-center">
 
-                            <input type="date" value={this.dateValue(this.state.userProfile.birthday)} onChange={(e)=>{this.setState({userProfile:{...this.state.userProfile,birthday:e.target.value}})}}/>
+                            <TextField placeholder="Birthday" max={this.dateValue(new Date)} name="birthday" type="date"/>
                                 
                             </div>  
                         </div>
@@ -129,8 +162,8 @@ class BookSeatGuest extends Component {
                                 <FaPassport size="35"/>
                             </div>
 
-                            <div className="flex text-xl flex-wrap align-middle content-center">
-                            <input placeholder="Passport Number" className="w-80 border border-gray-300 pl-3 p-1 rounded  focus:outline-none focus:ring focus:border-blue-200" type="text" value={this.state.userProfile.passport_no} onChange={(e)=>{this.setState({userProfile:{...this.state.userProfile,passport_no:e.target.value}})}}/>
+                            <div className="flex text-xl w-96 flex-wrap content-center">
+                            <TextField placeholder="Passport No" name="passport_no" type="text"/>
                                
                             </div>  
                         </div>
@@ -147,11 +180,11 @@ class BookSeatGuest extends Component {
                                 
                             </div> 
 
-                            <div onClick={this.boookSeat} className="p-3 cursor-pointer rounded text-center text-xl text-blue-900 border-2 border-blue-900 hover:bg-blue-900 hover:text-white">
+                            <button type="submit" className="p-3 cursor-pointer rounded text-center text-xl text-blue-900 border-2 border-blue-900 hover:bg-blue-900 hover:text-white">
                                 
                                    Make Booking
                                 
-                            </div> 
+                            </button> 
                         </div>
                     }
                         
@@ -159,7 +192,10 @@ class BookSeatGuest extends Component {
                </div>
                
             </div>
+                    </Form>
+                )}
             
+            </Formik>
         )
     }
 }

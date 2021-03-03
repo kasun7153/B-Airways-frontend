@@ -89,8 +89,10 @@ class SignUp extends Component {
                         <span className="font-bold block mb-10 text-4xl">Create a new account</span>
                         
                         <Form>
-                        
-                            <TextField placeholder="Full Name" name="name" type="text"/>
+                            <div className="mb-5">
+                                <TextField placeholder="Full Name" name="name" type="text"/>
+                            </div>
+                            
 
                             <div className="mb-5">
                                 <PhoneInput 
@@ -105,13 +107,22 @@ class SignUp extends Component {
                                     enableSearch={true} 
                                     onChange={phone=>this.setState({contact_no:phone})}/>
                             </div>
-                    
-                            <TextField placeholder="Passport No" name="passport_no" type="text"/>
-                            <TextField placeholder="Birthday" max={this.dateValue(new Date)} name="birthday" type="date"/>
-                            <TextField placeholder="Country" name="country" type="text"/>
-                            <TextField placeholder="email" name="email" type="text"/>
-                            <TextField placeholder="Password" name="password" type="password"/>
-                            
+                            <div className="mb-5">
+                                <TextField placeholder="Passport No" name="passport_no" type="text"/>
+                            </div>
+                            <div className="mb-5">
+                                <TextField placeholder="Birthday" max={this.dateValue(new Date)} name="birthday" type="date"/>
+                            </div>
+                            <div className="mb-5">
+                                <TextField placeholder="Country" name="country" type="text"/>
+                            </div>
+                            <div className="mb-5">
+                                <TextField placeholder="email" name="email" type="text"/>
+                            </div>
+                            <div className="mb-5">
+                                <TextField placeholder="Password" name="password" type="password"/>
+                            </div>
+
                             <button type='submit' className="w-28 rounded py-1 px-3 border-2 border-blue-900 bg-blue-900 text-white hover:shadow-2xl cursor-pointer mt-5">
                                 <PulseLoader color={"#FFFFFF"} loading={this.state.loading} size={5} />{!this.state.loading?"Sign Up":null}
                             </button>

@@ -120,8 +120,13 @@ class Login extends Component {
                 {formik=>(
                 
                         <Form>
-                            <TextField placeholder="email" name="email" type="text"/>
+                            <div className="mb-5">
+                            <TextField  placeholder="email" name="email" type="text"/>
+                            </div>
+
+                            <div className="mb-5">
                             <TextField placeholder="Password" name="password" type="password"/>
+                            </div>
                             
                             <button type='submit' className="w-full rounded py-1 px-3 border-2 border-blue-900 bg-blue-900 text-white hover:shadow-2xl cursor-pointer">
                             <PulseLoader color={"#FFFFFF"} loading={this.state.loading} size={5} />{!this.state.loading?this.state.selected==="User"?"Sign in":"Admin Login":null}
