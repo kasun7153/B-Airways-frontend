@@ -70,13 +70,13 @@ class ChangePassword extends Component {
     render() {
         return (
             <>
-            <div className="absolute transform -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
+            <div className="absolute transform -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2 border-2 border-black p-14">
                 <div className="flex flex-wrap justify-center content-center mt-10 h-full">
                    
                    
-
-                    <div className="flex mt-7">
-                        <div className="flex flex-wrap w-44 text-right justify-center content-center mb-5">
+                    <div>
+                    <div className="flex mt-7 justify-center">
+                        <div className="flex flex-wrap w-44 text-center justify-center content-center mb-5">
                             <RiLockPasswordLine size="100"/>
                         </div>
                     </div>
@@ -111,7 +111,7 @@ class ChangePassword extends Component {
                         </div>  
                     </div>
 
-                    <div className="mt-10 flex">
+                    <div className="mt-10 flex justify-center">
                             <div onClick={this.changePassword} className="p-2 cursor-pointer rounded text-center text-2xl text-blue-900 border-2 border-blue-900 hover:bg-blue-900 hover:text-white">
                                 
                                     Change Password
@@ -120,7 +120,7 @@ class ChangePassword extends Component {
 
                            
                         </div>
-
+                        </div>
                 </div>
                 
             </div>
